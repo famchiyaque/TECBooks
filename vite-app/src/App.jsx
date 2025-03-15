@@ -5,7 +5,7 @@ import HomePage from './HomePage/HomePage'
 import MxRep from './MxRep/Main'
 import TECBooks from './TECBooks/TECBooks'
 import Survey from './Survey/Survey'
-import TempUpload from './Homepage/TempUpload'
+// import TempUpload from './Homepage/TempUpload'
 import ProjEval from './Sims/Investments/Simulator'
 // import ErrorPage from './Global Components/ErrorPage'
 import { Navigate } from 'react-router-dom'
@@ -25,7 +25,7 @@ function App() {
           <Route path="/" element={ <Navigate to="/home" /> } />
           <Route path="/home" element={ <HomePage /> } />
           <Route path="survey" element={<Survey />} />
-          <Route path="/template-upload" element={ <TempUpload />} />
+          {/* <Route path="/template-upload" element={ <TempUpload />} /> */}
 
           <Route path="/mxrep-dashboard/*" element={ 
               // <SimDataProvider>
