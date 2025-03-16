@@ -5,7 +5,7 @@ import EastIcon from '@mui/icons-material/East'
 function Page2() {
 
   return (
-    <div className='page-container' id="mxrep-page">
+    <div className='page-container page-1' id="mxrep-page">
       <div className='more-a'>for students from MxREP production line simulator</div>
       <div className='mxrep-container'>
           <div className='mxrep-top'>

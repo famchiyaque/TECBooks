@@ -18,7 +18,12 @@ function Property({ assets, setAssets, hasAssets }) {
     ]);
 
     const handleHasProperty = (val) => {
-        setPropertyVisible(val === "true");
+        const bool = val === "true"
+        setPropertyVisible(bool);
+        if (!bool) {
+            setProperties([])
+            finished()
+        }
     };
 
     const handleChange = (index, field, value) => {
@@ -29,10 +34,11 @@ function Property({ assets, setAssets, hasAssets }) {
         const updatedProperties = [...properties];
         updatedProperties[index][field] = value;
         setProperties(updatedProperties);
+        finished()
     };
 
     const handleAddProperty = () => {
-        setProperties([...properties, { type: "", item: "", count: 1 }]);
+        setProperties([...properties, { type: "", item: "", name: "", count: 1 }]);
     };
 
     const handleRemoveProperty = (index) => {
@@ -85,7 +91,7 @@ function Property({ assets, setAssets, hasAssets }) {
                                     style={{ display: 'flex', width: '100%', gap: '1rem', alignItems: 'center', padding: '0.8rem 0' }}
                                 >
                                     
-                                    <FormControl variant="standard" sx={{ flexBasis: '25%' }}>
+                                    <FormControl variant="standard" sx={{ flexBasis: '20%' }}>
                                         <InputLabel>Type</InputLabel>
                                         <Select
                                             value={prop.type}
@@ -97,7 +103,7 @@ function Property({ assets, setAssets, hasAssets }) {
                                         </Select>
                                     </FormControl>
 
-                                    <FormControl variant='standard' sx={{ flexBasis: '40%' }}>
+                                    <FormControl variant='standard' sx={{ flexBasis: '35%' }}>
                                         <InputLabel>Property</InputLabel>
                                         <Select
                                             value={prop.property}
@@ -109,13 +115,24 @@ function Property({ assets, setAssets, hasAssets }) {
                                         </Select>
                                     </FormControl>
 
+                                    <FormControl variant='standard' sx={{ flexBasis: '35%' }}>
+                                        <TextField
+                                            label="Property Name"
+                                            variant='standard'
+                                            type="text"
+                                            value={prop.name}
+                                            onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                            // sx={{ flexBasis: '20%' }}
+                                        />
+                                    </FormControl>
+
                                     <TextField
-                                        label="Number"
+                                        label="#"
                                         variant='standard'
                                         type="number"
                                         value={prop.count}
                                         onChange={(e) => handleChange(index, 'count', e.target.value)}
-                                        sx={{ flexBasis: '20%' }}
+                                        sx={{ width: '60px' }}
                                     />
                                     <DeleteForeverIcon 
                                         onClick={() => handleRemoveProperty(index)} 
@@ -129,12 +146,7 @@ function Property({ assets, setAssets, hasAssets }) {
                     <Button sx={{ paddingLeft: '2rem' }} color="primary" onClick={handleAddProperty}>
                         + Add Property Asset
                     </Button>  
-
-                    <div style={{ width: '100%', textAlign: 'right' }}>
-                        <Button onClick={finished} variant="contained" color="primary" sx={{ marginLeft: 'auto' }}>
-                            Set Properties
-                        </Button>
-                    </div>  
+ 
                 </div>    
             )}
         </div>

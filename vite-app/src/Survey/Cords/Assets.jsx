@@ -12,13 +12,12 @@ import EastIcon from '@mui/icons-material/East'
 import Property from './AssetInputs.jsx/Property'
 import Machinery from './AssetInputs.jsx/Machinery'
 import Tech from './AssetInputs.jsx/Tech'
-import Fixtures from './AssetInputs.jsx/Fixtures'
 import Inv from './AssetInputs.jsx/Inv'
 import HelpIcon from '@mui/icons-material/Help'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
-function Assets({ currQuestion, setCurrQuestion, hasAssets, setHasAssets, assets, setAssets, typeAssets, setTypeAssets }) {
+function Assets({ currQuestion, setCurrQuestion, hasAssets, setHasAssets, assets, setAssets }) {
 
   const handleSetPage4 = () => {
     setCurrQuestion(currQuestion === 4 ? null : 4);
@@ -29,44 +28,9 @@ function Assets({ currQuestion, setCurrQuestion, hasAssets, setHasAssets, assets
     setHasAssets(boolVal)
   }
 
-  const handleHasInv = (val) => {
-    const boolVal = val === "true"
-    setInventoryVisible(boolVal)
-  }
-
-  const handleYesHasTypeAssset = (assetId, action) => {
-    setTypeAssets((prev) => {
-      const assetType = assetMap[assetId];
-  
-      const assetLogged = prev.includes(assetType);
-  
-      let newAssets = [...prev];
-  
-      if (action === "yes" && !assetLogged) {
-        newAssets.push(assetType);
-      } else if (action === "no" && assetLogged) {
-        newAssets = newAssets.filter((item) => item !== assetType);
-      }
-  
-      return newAssets;
-    });
-  };
-
-  const handleCheckboxChange = (event, assetId) => {
-    const { value, checked } = event.target
-    setAssets((prev) => 
-      checked ? [...prev, value] : prev.filter((item) => item !== value)
-    )
-  }
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const assetMap = [
-    "Property", "Machinery", "Tech",
-    "Fixtures", "Inventory"
-  ]
 
   const style = {
     position: 'absolute',
@@ -115,7 +79,7 @@ function Assets({ currQuestion, setCurrQuestion, hasAssets, setHasAssets, assets
 
           <Tech assets={assets} setAssets={setAssets} hasAssets={hasAssets} />
 
-          <Fixtures assets={assets} setAssets={setAssets} hasAssets={hasAssets} />
+          {/* <Fixtures assets={assets} setAssets={setAssets} hasAssets={hasAssets} /> */}
 
           <Inv assets={assets} setAssets={setAssets} hasAssets={hasAssets} />
 
@@ -138,12 +102,12 @@ function Assets({ currQuestion, setCurrQuestion, hasAssets, setHasAssets, assets
         >
           <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              What's the difference between Owning, Renting, and Leasing?
+              What's the difference between Owning, Renting, and Leasing with Assets?
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Owning is when you outright buy the product or service, and only pay once to use
+              <b>Owning</b> is when you outright buy the product or service, and only pay once to use
               that product or service. <br/><br/>
-              Renting is when you pay continously to use or have access to the product or service,
+              <b>Renting</b> is when you pay continously to use or have access to the product or service,
               and leasing is the same just for longer terms.
             </Typography>
           </Box>

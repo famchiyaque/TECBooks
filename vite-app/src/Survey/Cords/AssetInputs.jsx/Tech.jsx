@@ -29,10 +29,11 @@ function Tech({ assets, setAssets, hasAssets }) {
         const updatedTechnologies = [...technologies];
         updatedTechnologies[index][field] = value;
         setTechnologies(updatedTechnologies);
+        finished()
     };
 
     const handleAddTechnologies = () => {
-        setTechnologies([...technologies, { type: "", item: "", count: 1 }]);
+        setTechnologies([...technologies, { type: "", item: "", name: "", count: 1 }]);
     };
 
     const handleRemoveTechnology = (index) => {
@@ -108,6 +109,17 @@ function Tech({ assets, setAssets, hasAssets }) {
                                         </Select>
                                     </FormControl>
 
+                                    <FormControl variant='standard' sx={{ flexBasis: '35%' }}>
+                                        <TextField
+                                            label="Tech Name"
+                                            variant='standard'
+                                            type="text"
+                                            value={prop.name}
+                                            onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                            // sx={{ flexBasis: '20%' }}
+                                        />
+                                    </FormControl>
+
                                     <TextField
                                         label="Number"
                                         type="number"
@@ -129,11 +141,6 @@ function Tech({ assets, setAssets, hasAssets }) {
                         + Add Technology Asset
                     </Button>  
 
-                    <div style={{ width: '100%', textAlign: 'right' }}>
-                        <Button onClick={finished} variant="contained" color="primary" sx={{ marginLeft: 'auto' }}>
-                            Set Technology
-                        </Button>
-                    </div>  
                 </div>    
             )}
         </div>

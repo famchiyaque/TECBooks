@@ -4,7 +4,7 @@ import Carousel from './Carousel'
 
 function Features() {
   return (
-    <div style={{ textAlign: 'left' }}>
+    <div className='page-1' style={{ textAlign: 'left' }}>
         <div >
           <Typography variant='h3' sx={{ fontWeight: '600', padding: '3rem 0 0 10%' }}>Features</Typography>
           <div className='more-carousel'>

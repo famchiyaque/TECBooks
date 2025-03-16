@@ -18,7 +18,12 @@ function Machinery({ assets, setAssets, hasAssets }) {
     ]);
 
     const handleHasMachinery = (val) => {
-        setMachineryVisible(val === "true");
+        const bool = val === "true"
+        setMachineryVisible(bool);
+        if (!bool) {
+            setMachinery([])
+            finished()
+        }
     };
 
     const handleChange = (index, field, value) => {
@@ -29,10 +34,11 @@ function Machinery({ assets, setAssets, hasAssets }) {
         const updatedMachinery = [...machines];
         updatedMachinery[index][field] = value;
         setMachinery(updatedMachinery);
+        finished()
     };
 
     const handleAddMachinery = () => {
-        setMachinery([...machines, { type: "", item: "", count: 1 }]);
+        setMachinery([...machines, { type: "", item: "", name: "", count: 1 }]);
     };
 
     const handleRemoveMachinery = (index) => {
@@ -97,7 +103,7 @@ function Machinery({ assets, setAssets, hasAssets }) {
                                         </Select>
                                     </FormControl>
 
-                                    <FormControl variant='standard' sx={{ flexBasis: '40%' }}>
+                                    <FormControl variant='standard' sx={{ flexBasis: '35%' }}>
                                         <InputLabel>Machine</InputLabel>
                                         <Select
                                             value={prop.item}
@@ -109,13 +115,24 @@ function Machinery({ assets, setAssets, hasAssets }) {
                                         </Select>
                                     </FormControl>
 
+                                    <FormControl variant='standard' sx={{ flexBasis: '35%' }}>
+                                        <TextField
+                                            label="Machinery Name"
+                                            variant='standard'
+                                            type="text"
+                                            value={prop.name}
+                                            onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                            // sx={{ flexBasis: '20%' }}
+                                        />
+                                    </FormControl>
+
                                     <TextField
-                                        label="Number"
+                                        label="#"
+                                    variant='standard'
                                         type="number"
-                                        variant='standard'
                                         value={prop.count}
                                         onChange={(e) => handleChange(index, 'count', e.target.value)}
-                                        sx={{ flexBasis: '20%' }}
+                                        sx={{ width: '60px' }}
                                     />
                                     <DeleteForeverIcon 
                                         onClick={() => handleRemoveMachinery(index)} 
@@ -129,12 +146,7 @@ function Machinery({ assets, setAssets, hasAssets }) {
                     <Button sx={{ paddingLeft: '2rem' }} color="primary" onClick={handleAddMachinery}>
                         + Add Machinery Asset
                     </Button>  
-
-                    <div style={{ width: '100%', textAlign: 'right' }}>
-                        <Button onClick={finished} variant="contained" color="primary" sx={{ marginLeft: 'auto' }}>
-                            Set Machinery
-                        </Button>
-                    </div>  
+                    
                 </div>    
             )}
         </div>

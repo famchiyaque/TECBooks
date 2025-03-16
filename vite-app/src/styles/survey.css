@@ -2,18 +2,19 @@
     width: 100%;
     background: linear-gradient(20deg, #28a1ed 0%, #73c2f3 30%, #bee3f9 70%, #fff 100%);
     color: #073a5a;
-    padding: 1.5rem 0 4rem 0;
+    padding: 0 0 4rem 0;
     min-height: 100vh;
 }
 
 .survey-card {
-    background-color: #e4f1fe;
+  background-color: #e4f1fe;
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;
   border: solid #073a5a 1px;
+  /* margin: 4rem 0; */
   padding: 1rem 2rem;
   width: 50%;
-  min-width: 500px;
+  min-width: 700px;
   margin: 0 auto;
   min-height: 600px;
 }

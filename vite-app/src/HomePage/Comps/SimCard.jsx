@@ -20,7 +20,7 @@ export default function MediaCard({ title, img_path, desc, sim_route }) {
       cursor: 'pointer',
       // boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
       // boxShadow: '#eec60a 0px 3px 8px',
-      boxShadow: 'rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, #eec60a 0px 0px 0px 1px',
+      boxShadow: 'rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, navy 0px 0px 0px 1px',
       borderRadius: '15px'
     }
 
@@ -41,7 +41,7 @@ export default function MediaCard({ title, img_path, desc, sim_route }) {
       </CardContent>
       <CardActions>
         <div style={{ width: '100%', marginLeft: 'auto', paddingRight: '1rem' }}>
-            <button className='learn-more continue-btn' onClick={handleGoToSim}>
+            <button className='learn-more continue-btn' onClick={handleGoToSim} style={{ color: '#eec60a' }}>
                 Go To Sim
                 <EastIcon className='landing-learn-btn' sx={{ height: '100%', fontSize: '120%', fontWeight: '600' }} /> 
             </button>

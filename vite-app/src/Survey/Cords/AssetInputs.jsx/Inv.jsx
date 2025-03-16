@@ -8,6 +8,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function Inventory({ assets, setAssets, hasAssets }) {
@@ -22,12 +24,13 @@ function Inventory({ assets, setAssets, hasAssets }) {
         const updatedInventory = [...inventory];
         updatedInventory[index][field] = value;
         setInventory(updatedInventory);
+        finished()
     };
 
     const handleAddInventory = () => {
         setInventory([
             ...inventory,
-            { type: "", frequency: "", track: "", fluctuate: false }
+            { type: "", name: "" }
         ]);
     };
 
@@ -43,16 +46,15 @@ function Inventory({ assets, setAssets, hasAssets }) {
         );
     };
 
+    // const inventoryCategories = [
+    //     "Raw Materials", "Work-in-progress goods", "Finished Goods",
+    //     "Retail Stock", "Spare Parts & Supplies", "Other inventory type"
+    // ];
+
     const inventoryCategories = [
-        "Raw Materials", "Work-in-progress goods", "Finished Goods",
-        "Retail Stock", "Spare Parts & Supplies", "Other inventory type"
+        "Raw Materials", "Finished Goods",
+        "Retail Stock"
     ];
-
-    const purchaseFrequencies = ["Weekly", "Monthly", "Quarterly", "Annually"];
-
-    useEffect(() => {
-        console.log(inventory);
-    }, [inventory]);
 
     return (
         <div>
@@ -88,7 +90,7 @@ function Inventory({ assets, setAssets, hasAssets }) {
                                 >
                                                                         
                                     {/* Type Select */}
-                                    <FormControl variant="standard" sx={{ flexBasis: '30%' }}>
+                                    <FormControl variant="standard" sx={{ flexBasis: '40%' }}>
                                         <InputLabel>Inventory Type</InputLabel>
                                         <Select
                                             value={item.type}
@@ -100,42 +102,18 @@ function Inventory({ assets, setAssets, hasAssets }) {
                                         </Select>
                                     </FormControl>
 
-                                    {/* Frequency Select */}
-                                    <FormControl variant="standard" sx={{ flexBasis: '20%' }}>
-                                        <InputLabel>Frequency</InputLabel>
-                                        <Select
-                                            value={item.frequency}
-                                            onChange={(e) => handleChange(index, 'frequency', e.target.value)}
-                                        >
-                                            {purchaseFrequencies.map((freq, id) => (
-                                                <MenuItem key={id} value={freq}>{freq}</MenuItem>
-                                            ))}
-                                        </Select>
+                                    <FormControl variant='standard' sx={{ flexBasis: '40%' }}>
+                                        {/* <InputLabel>revense</InputLabel> */}
+                                        <TextField
+                                            label="Name"
+                                            type="text"
+                                            variant='standard'
+                                            value={item.name}
+                                            onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                            // sx={{ flexBasis: '20%' }}
+                                        />
                                     </FormControl>
 
-                                    {/* Tracking Select */}
-                                    <FormControl variant="standard" sx={{ flexBasis: '20%' }}>
-                                        <InputLabel>Track Cost</InputLabel>
-                                        <Select
-                                            value={item.track}
-                                            onChange={(e) => handleChange(index, 'track', e.target.value)}
-                                        >
-                                            <MenuItem value="per unit">Per Unit</MenuItem>
-                                            <MenuItem value="total">Total Cost</MenuItem>
-                                        </Select>
-                                    </FormControl>
-
-                                    {/* Fluctuation Yes/No */}
-                                    <FormControl variant="standard" sx={{ flexBasis: '15%' }}>
-                                        <InputLabel>Fluctuates?</InputLabel>
-                                        <Select
-                                            value={item.fluctuate}
-                                            onChange={(e) => handleChange(index, 'fluctuate', e.target.value === "true")}
-                                        >
-                                            <MenuItem value="true">Yes</MenuItem>
-                                            <MenuItem value="false">No</MenuItem>
-                                        </Select>
-                                    </FormControl>
                                     <DeleteForeverIcon 
                                         onClick={() => handleRemoveInventory(index)} 
                                         style={{ cursor: 'pointer', color: 'red' }} 
@@ -148,11 +126,6 @@ function Inventory({ assets, setAssets, hasAssets }) {
                     <Button sx={{ paddingLeft: '2rem' }} color="primary" onClick={handleAddInventory}>
                         + Add Inventory Item
                     </Button>  
-                    <div style={{ width: '100%', textAlign: 'right' }}>
-                        <Button onClick={finished} variant="contained" color="primary" sx={{ marginLeft: 'auto' }}>
-                            Set Inventory
-                        </Button>
-                    </div>   
                 </div>    
             )}
         </div>

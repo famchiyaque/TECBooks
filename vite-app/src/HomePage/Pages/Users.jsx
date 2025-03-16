@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 function UsersPage() {
 
   return (
-    <div id="users-page" className='page-container'>
+    <div id="users-page" className='page-container page-1'>
       <div className='more-text' style={{ textAlign: 'center' }}>
         <a className='more-a'>what we do</a>
         <Typography variant="h3" sx={{ fontWeight: '600' }}>An Interactive Experience: </Typography>

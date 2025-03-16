@@ -40,9 +40,7 @@ function Employees({
 
   // Handle description update
   useEffect(() => {
-    if (!hasEmployees) {
-      setDesc("No employees");
-    } else if (numericEmpAdmin === 0 && numericEmpProduction === 0) {
+    if (hasEmployees === null || (numericEmpAdmin === 0 && numericEmpProduction === 0) ) {
       setDesc("Incomplete");
     } else if (numericEmpAdmin + numericEmpProduction !== numericNumEmployees) {
       setDesc("Wrong # Employees");

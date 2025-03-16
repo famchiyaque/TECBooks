@@ -9,7 +9,7 @@ function Header() {
                 <p><a href="#users-page">About</a></p>
                 <p><a href="#tecbooks-page">TECBooks</a></p>
                 <p><a href="#mxrep-page">MxRep</a></p>
-                <p><a href="#sims-page">Free Sims</a></p>
+                <p><a href="#sims-page">Simulators</a></p>
                 <p><a href="#footer">Contact</a></p>
             </nav>
         </div>
