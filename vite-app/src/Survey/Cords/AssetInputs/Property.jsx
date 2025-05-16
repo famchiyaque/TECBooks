@@ -10,11 +10,18 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useSelector, useDispatch } from 'react-redux'
+import { setAssets } from '../../Store'
 
-function Property({ assets, setAssets, hasAssets }) {
+function Property() {
+    const dispatch = useDispatch()
+
+    const hasAssets = useSelector((state) => state.survey.hasAssets)
+    const assets = useSelector((state) => state.survey.assets)
+
     const [propertyVisible, setPropertyVisible] = useState(false);
     const [properties, setProperties] = useState([
-        { type: "Owned", item: "Office Buildings", count: 1 }
+        { type: "", name: "", count: 0, depRate: '' }
     ]);
 
     const handleHasProperty = (val) => {
@@ -38,24 +45,26 @@ function Property({ assets, setAssets, hasAssets }) {
     };
 
     const handleAddProperty = () => {
-        setProperties([...properties, { type: "", item: "", name: "", count: 1 }]);
+        setProperties([...properties, { type: "", name: "", count: 0, depRate: '' }]);
     };
 
     const handleRemoveProperty = (index) => {
         setProperties(properties.filter((_, i) => i !== index));
     };
 
-    const propertyMap = [
-        "Office Buildings", "Factories", "Warehouses",
-        "Retail Stores", "Land", "Rental Properties", "Other Property Type"
-    ];
-
     const finished = () => {
-        setAssets(prevAssets =>
-            prevAssets.map(asset =>
-                asset.name === "property" ? { ...asset, data: properties } : asset
-            )
-        );
+
+        const newAssets = assets.map(asset => 
+            asset.name === "property" ? {...asset, data: properties} : asset
+        )
+
+        dispatch(setAssets(newAssets))
+
+        // setAssets(prevAssets =>
+        //     prevAssets.map(asset =>
+        //         asset.name === "property" ? { ...asset, data: properties } : asset
+        //     )
+        // );
     };
 
     return (
@@ -98,24 +107,11 @@ function Property({ assets, setAssets, hasAssets }) {
                                             onChange={(e) => handleChange(index, 'type', e.target.value)}
                                         >
                                             <MenuItem value={"Owned"}>Owned</MenuItem>
-                                            <MenuItem value={"Rented"}>Rented</MenuItem>
-                                            <MenuItem value={"Leased"}>Leased</MenuItem>
+                                            <MenuItem value={"Rented/Leased"}>Rented</MenuItem>
                                         </Select>
                                     </FormControl>
 
-                                    <FormControl variant='standard' sx={{ flexBasis: '35%' }}>
-                                        <InputLabel>Property</InputLabel>
-                                        <Select
-                                            value={prop.property}
-                                            onChange={(e) => handleChange(index, 'item', e.target.value)}
-                                        >
-                                            {propertyMap.map((option, id) => (
-                                                <MenuItem key={id} value={option}>{option}</MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl variant='standard' sx={{ flexBasis: '35%' }}>
+                                    <FormControl variant='standard' sx={{ flexBasis: '25%' }}>
                                         <TextField
                                             label="Property Name"
                                             variant='standard'
@@ -126,6 +122,17 @@ function Property({ assets, setAssets, hasAssets }) {
                                         />
                                     </FormControl>
 
+                                    {prop.type === "Owned" && (
+                                        <TextField
+                                        label="Dep Rate"
+                                        variant='standard'
+                                        type="number"
+                                        value={prop.depRate}
+                                        onChange={(e) => handleChange(index, 'count', e.target.value)}
+                                        sx={{ width: '90px' }}
+                                        />
+                                    )}
+
                                     <TextField
                                         label="#"
                                         variant='standard'
@@ -134,6 +141,7 @@ function Property({ assets, setAssets, hasAssets }) {
                                         onChange={(e) => handleChange(index, 'count', e.target.value)}
                                         sx={{ width: '60px' }}
                                     />
+
                                     <DeleteForeverIcon 
                                         onClick={() => handleRemoveProperty(index)} 
                                         style={{ cursor: 'pointer', color: 'red' }} 
@@ -149,6 +157,7 @@ function Property({ assets, setAssets, hasAssets }) {
  
                 </div>    
             )}
+
         </div>
     );
 }

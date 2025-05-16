@@ -49,7 +49,9 @@ function Page1() {
                         your excel template with your business's financial data
                     </Typography>
                 </div>
-                <img src={'/imgs/template_fake_img.png'} />
+                <div style={{ textAlign: 'center' }}>
+                    <img src={'/imgs/excel_icon.png'} style={{ boxShadow: 'none', width: '80%' }} />
+                </div>
                 {/* <EastIcon sx={{ fontSize: '2rem' }} /> */}
             </div>
             <div className='temp-arrow'>

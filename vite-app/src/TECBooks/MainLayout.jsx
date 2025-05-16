@@ -4,22 +4,24 @@ import Sidebar from './Comps/Sidebar'
 import React, { useState, useEffect } from 'react'
 import SubHeader from './Comps/SubHeader'
 import Loader from './Comps/Loader'
+import { useExcel } from './Comps/ExcelContext'
 
 function MainLayout() {
     const [activeSidebar, setActiveSidebar] = useState(0)
     const [sidebarVisible, setSidebarVisible] = useState(true)
+    const { loading } = useExcel()
 
-    const today = new Date()
-    const [period, setPeriod] = useState(today.getMonth())
-    const [year, setYear] = useState(today.getFullYear())
+    // const today = new Date()
+    const [period, setPeriod] = useState(null)
+    // const [year, setYear] = useState(today.getFullYear())
 
     const location = useLocation()
 
     const routeToSidebarMap = {
         'overview': 1,
         'statements': 2,
-        'financial-health': 3,
-        'forecasts': 4,
+        'financial-health': 3
+        // 'forecasts': 4,
     }
 
     useEffect(() => {
@@ -31,13 +33,13 @@ function MainLayout() {
 
     console.log("active sidebar: ", activeSidebar)
     if (activeSidebar == 0) return <Loader />
-    else {
 
     return (
         <>
             <Header />
             <SubHeader sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeSidebar={activeSidebar}
-                period={period} year={year} setPeriod={setPeriod} setYear={setYear} />
+                period={period} setPeriod={setPeriod} 
+            />
 
             <div>  
                 <div className={`sidebar-state ${sidebarVisible ? '' : 'sidebar-hidden'}`}>
@@ -45,12 +47,12 @@ function MainLayout() {
                 </div>
 
                 <div className={`${sidebarVisible ? 'view' : 'view-no-sidebar'}`}>
-                    <Outlet context={{ period, year }} />
+                    {loading ? <Loader /> : <Outlet context={{ period }} />}
+                    {/* <Outlet context={{ period, year }} /> */}
                 </div>
             </div>    
         </>
     );
-}
 }
 
 export default MainLayout

@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { useSimData } from '../../SimDataContext'
+import { useExcel } from '../../Comps/ExcelContext'
 import Card from "@mui/material/Card"
 import jsPDF from "jspdf"
 import "jspdf-autotable"
 import { getIncomeStatement } from '../Calcs/income'
 
 function Cashflows({ period, year }) {
-    const { simData } = useSimData()
+    const { statementData } = useExcel()
     const [incomeDataArray, setIncomeDataArray] = useState([])
     const months = ["January", "February", "March", "April", "May",
         "June", "July", "August", "September", "October", "November", "December"
     ]
 
-    useEffect(() => {
-        const incomeInfo = getIncomeStatement(simData, period, year)
-        setIncomeDataArray(incomeInfo)
-    }, [simData, period, year])
+    // useEffect(() => {
+        // const incomeInfo = getIncomeStatement(simData, period, year)
+        // setIncomeDataArray(incomeInfo)
+
+    // }, [])
 
     const generateIncomePDF = () => {
         const content = document.getElementById("income-contents"); // Target your component

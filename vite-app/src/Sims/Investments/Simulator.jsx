@@ -99,6 +99,10 @@ function Simulator() {
       setOutflows(proj.outflows)
     }
 
+    useEffect(() => {
+        window.scrollTo(0, 0); // Scrolls to the top of the page
+      }, []);
+
     return (
       <div>
         <GenericHeader pageName={"Simulators"} />

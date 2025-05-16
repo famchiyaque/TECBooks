@@ -11,38 +11,55 @@ import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import HelpIcon from '@mui/icons-material/Help'
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrQuestion, setHasExpenses, setExpenses, selectExpensesComplete } from '../Store'
 
+function Expenses() {
+    const dispatch = useDispatch()
 
-function Expenses({ currQuestion, setCurrQuestion, expenses, setExpenses }) {
+    const currQuestion = useSelector((state) => state.survey.currQuestion)
+    const hasExpenses = useSelector((state) => state.survey.hasExpenses)
+    const expenses = useSelector((state) => state.survey.expenses)
+    const isComplete = useSelector(selectExpensesComplete)
 
     const handleSetPage5 = () => {
-        setCurrQuestion(currQuestion === 5 ? null : 5);
+        dispatch(setCurrQuestion(currQuestion === 5 ? null : 5));
     };
 
-    const [desc, setDesc] = useState('Incomplete')
-
     const handleAddExpense = () => {
-        setExpenses([...expenses, { name: "", frequency: "" }])
+        dispatch(setExpenses([...expenses, { name: "" }]))
     }
 
     const handleRemoveExpense = (index) => {
-        setExpenses(expenses.filter((_, i) => i !== index));
+      const updatedExpenses = expenses.filter((_, i) => i !== index)
+        dispatch(setExpenses(updatedExpenses));
+    };
+
+    const handleToggleHasExpenses = (event) => {
+      const checked = !event.target.checked; // because label is "I have none"
+      dispatch(setHasExpenses(checked));
+      if (!checked) {
+        dispatch(setExpenses([])); // clear if they say they have none
+      }
     };
 
     const handleChange = (index, field, value) => {
-        setExpenses(prevExpenses =>
-            prevExpenses.map((exp, i) =>
-                i === index ? { ...exp, [field]: value } : exp
-            )
-        );
+      const updatedExpenses = expenses.map((exp, i) =>
+          i === index ? { ...exp, [field]: value } : exp
+      )
+      dispatch(setExpenses(updatedExpenses))
     }
 
-    useEffect(() => {
-        if (expenses.length <= 0) setDesc('Incomplete')
-        else setDesc(expenses.length + ' expenses')
-    }, [expenses])
-
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     
   return (
     <div>
@@ -54,72 +71,115 @@ function Expenses({ currQuestion, setCurrQuestion, expenses, setExpenses }) {
           onClick={() => handleSetPage5()}
         >
           <Typography component="span">5. Expenses</Typography>
-          <Typography sx={{ color: 'gray', marginLeft: 'auto', paddingRight: '0.5rem' }}><i>{desc}</i></Typography>
+          <Typography sx={{ color: 'gray', marginLeft: 'auto', paddingRight: '0.5rem' }}><i>{isComplete ? 'Complete' : 'Incomplete'}</i></Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: "left", paddingLeft: "10%" }}>
 
-            <Typography component="span">
-                Not including salaries, assets, or inventories, what are you business's expenses?
-            </Typography>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', width: '100%' }}>
+              <Typography component="span" sx={{ flexBasis: '90%' }}>
+                  Not including salaries, assets, or inventories, what are you business's expenses? (utilities, digital marketing, etc.)
+              </Typography>
+              <div style={{ flexBasis: '10%' }}>
+                <HelpIcon className='help-icon' onClick={() => setOpen(true)} />
+              </div>
+            </div>
 
-            <div style={{ padding: '1rem 0 2rem 2rem' }}>
-                    <Typography variant="subtitle1" sx={{ color: 'gray' }}>
-                        Add all you expenses here
-                    </Typography>
-                    <div>
-                        <FormControl fullWidth>
-                            {expenses.map((exp, index) => (
-                                <div 
-                                    key={index} 
-                                    style={{ display: 'flex', width: '100%', gap: '1rem', alignItems: 'center', padding: '0.8rem 0' }}
-                                >
-                                    <FormControl variant='standard' sx={{ flexBasis: '40%' }}>
-                                        {/* <InputLabel>Expense</InputLabel> */}
-                                        <TextField
-                                            label="Expense"
-                                            type="text"
-                                            variant='standard'
-                                            value={exp.name}
-                                            onChange={(e) => handleChange(index, 'name', e.target.value)}
-                                            // sx={{ flexBasis: '20%' }}
-                                        />
-                                    </FormControl>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={!hasExpenses}
+                    onChange={handleToggleHasExpenses}
+                  />
+                }
+                label="I have none"
+              />
+            </FormGroup>
 
-                                    <FormControl variant="standard" sx={{ flexBasis: '40%' }}>
-                                        <InputLabel>Frecuency</InputLabel>
-                                        <Select
-                                            value={exp.frequency}
-                                            onChange={(e) => handleChange(index, 'frequency', e.target.value)}
-                                        >
-                                            <MenuItem value={"Weekly"}>Weekly</MenuItem>
-                                            <MenuItem value={"Monthly"}>Monthly</MenuItem>
-                                            <MenuItem value={"Quarterly"}>Quarterly</MenuItem>
-                                            <MenuItem value={"Annually"}>Annually</MenuItem>
-                                        </Select>
-                                    </FormControl>
+            {hasExpenses && (
+              <div style={{ padding: '0rem 0 2rem 1rem' }}>
+              {/* <Typography variant="subtitle1" sx={{ color: 'gray' }}>
+                  Add all you expenses here
+              </Typography> */}
+              <div>
+                  <FormControl fullWidth>
+                      {expenses.map((exp, index) => (
+                          <div 
+                              key={index} 
+                              style={{ display: 'flex', width: '100%', gap: '1rem', alignItems: 'center', padding: '0.8rem 0' }}
+                          >
+                              <FormControl variant='standard' sx={{ flexBasis: '40%' }}>
+                                  {/* <InputLabel>Expense</InputLabel> */}
+                                  <TextField
+                                      label="Expense Name"
+                                      type="text"
+                                      variant='standard'
+                                      value={exp.name}
+                                      onChange={(e) => handleChange(index, 'name', e.target.value)}
+                                      // sx={{ flexBasis: '20%' }}
+                                  />
+                              </FormControl>
 
-                                    <DeleteForeverIcon 
-                                        onClick={() => handleRemoveExpense(index)} 
-                                        style={{ cursor: 'pointer', color: 'red' }} 
-                                    />
-                                </div>
-                            ))}
-                        </FormControl>
-                    </div>
+                              {/* <FormControl variant="standard" sx={{ flexBasis: '40%' }}>
+                                  <InputLabel>Frecuency</InputLabel>
+                                  <Select
+                                      value={exp.frequency}
+                                      onChange={(e) => handleChange(index, 'frequency', e.target.value)}
+                                  >
+                                      <MenuItem value={"Weekly"}>Weekly</MenuItem>
+                                      <MenuItem value={"Monthly"}>Monthly</MenuItem>
+                                      <MenuItem value={"Quarterly"}>Quarterly</MenuItem>
+                                      <MenuItem value={"Annually"}>Annually</MenuItem>
+                                  </Select>
+                              </FormControl> */}
+
+                              <DeleteForeverIcon 
+                                  onClick={() => handleRemoveExpense(index)} 
+                                  style={{ cursor: 'pointer', color: 'red' }} 
+                              />
+                          </div>
+                      ))}
+                  </FormControl>
+              </div>
 
                     <Button sx={{ paddingLeft: '2rem' }} color="primary" onClick={handleAddExpense}>
                         + Add Expense
                     </Button>    
             </div>  
+            )
+
+            }
 
           <div style={{ borderTop: 'solid gray 1px', marginTop: '1rem' }}>
-            <button className='learn-more continue-btn' onClick={() => setCurrQuestion(6)}>
+            <button className='learn-more continue-btn' onClick={() => dispatch(setCurrQuestion(6))}>
               Continue
               <EastIcon className='landing-learn-btn' sx={{ height: '100%', fontSize: '130%', fontWeight: '600' }} /> 
             </button>
           </div>
         </AccordionDetails>
       </Accordion>
+
+      <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className='modal-pop-up'>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              What exactly is an expense?
+            </Typography>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              An <b>expense</b> is a necessary cost for the general operations of the business, 
+              that isn't directly related to the production of the product or service. It can 
+              take the form of an electrity bill, sales rep salary, or the renting of a 
+              machine for the production line. <br/><br/>
+              Meanwhile, a <b>cost</b> is directly related to the product, like the inventory 
+              needed to make the product or the salary of the person building or creating the 
+              product, both of which should have already been taken care of in previous sections.
+            </Typography>
+          </Box>
+        </Modal>
     </div>
   )
 }

@@ -4,19 +4,23 @@ import { React, useEffect, useState } from 'react'
 import Loader from '../Comps//Loader'
 import { Navigate } from 'react-router-dom'
 // import Capital from './Small/Capital'
-// import Sales from './Small/Sales'
-// import LeaderBoard from './Small/LeaderBoard'
-// import Orders from './Middle/Orders'
-// import SalesDonut from './Middle/SalesDonut'
+import Sales from './Small/Sales'
+import Profit from './Small/Profit'
+import Orders from './Middle/Orders'
+import SalesDonut from './Middle/SalesDonut'
 import { useOutletContext } from 'react-router-dom'
 // import { SimContext } from './SimContext'
+import { useExcel } from '../Comps/ExcelContext'
 
 
 function Overview_View() {
-    // const { simData, isLoading, error } = useSimData()
-    const { period, year } = useOutletContext()
+    const { loading } = useExcel()
+    const { period } = useOutletContext()
+    console.log(period)
 
-    // if (isLoading) return <Loader />
+    if (loading) return <Loader />
+
+    // const totalSales = overviewData.total.reduce((prev, curr) => prev + curr, 0)
     // if (simData == null || error == true) return <Navigate to="/error" /> 
 
     return (
@@ -25,10 +29,10 @@ function Overview_View() {
                 {/* <LeaderBoard /> */}
                 {/* <Capital /> */}
                 <div className='whitecard top-box'>
-                    {/* <LeaderBoard /> */}
+                    <Sales period={period} />
                 </div>
                 <div className='whitecard top-box'>
-                    {/* <Sales /> */}
+                    <Profit period={period} />
                 </div>
                 <div className='whitecard top-box'>
                     {/* <Capital /> */}
@@ -36,10 +40,10 @@ function Overview_View() {
             </div>
             <div className='middle-row'>
                 <div className='whitecard sales-div'>
-                    {/* <SalesDonut period={period} year={year} /> */}
+                    <SalesDonut period={period} />
                 </div>
                 <div className='whitecard orders-div'>
-                    {/* <Orders period={period} year={year} /> */}
+                    <Orders period={period} />
                 </div>
             </div>
         </div>

@@ -4,8 +4,8 @@ import { MdDashboard, MdCandlestickChart } from 'react-icons/md'
 import { FaFileInvoiceDollar, FaChartPie, FaRegChartBar  } from 'react-icons/fa'
 import { RiBankFill } from "react-icons/ri";
 // import { BsBank } from "react-icons/bs";
-import { BiTrendingUp } from 'react-icons/bi'
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+// import { BiTrendingUp } from 'react-icons/bi'
+// import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import '../../styles/general.css'
 
 function Sidebar({ activeSidebar, setActiveSidebar }) {
@@ -68,7 +68,7 @@ function Sidebar({ activeSidebar, setActiveSidebar }) {
                     <FaRegChartBar className="sidebar-icon" />
                     <span>Financial Health</span>
             </div>
-            <div 
+            {/* <div 
                 className={`sidebar-entry ${activeSidebar === 4 ? 'active' : ''}`}
                 onClick={() => {
                     setActiveSidebar(4)
@@ -76,7 +76,7 @@ function Sidebar({ activeSidebar, setActiveSidebar }) {
                 }}>
                     <BiTrendingUp className="sidebar-icon" />
                     <span>Forecasts</span>
-            </div>
+            </div> */}
         </nav>
     )
 }

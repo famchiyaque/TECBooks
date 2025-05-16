@@ -1,157 +1,222 @@
+function getOverviewSheet(bizInfo, startMonth, months) {
+    const data = [[], ['', 'Overview', '', 'Name', bizInfo.name, '', 'Start', startMonth], []]
+
+    data.push(['', 'Months', 'Revenue', 'Costs', 'Expenses', 'Depreciation', 'Accounts', 'Total'])
+
+    months.forEach((month) => {
+        data.push(['', month]);
+    });
+
+    return data
+};
+
 function getRevenueSheet(revenue, months) {
-    const productsList = revenue.filter(rev => rev.type === "Product");
-    const servicesList = revenue.filter(rev => rev.type === "Service")
+    const productsList = revenue.filter(rev => rev.status === "Product");
+    const servicesList = revenue.filter(rev => rev.status === "Service");
 
-    const data = [[], [], ['', 'Revenue']]
+    const data = [[], ['', 'Revenue'], []];
 
-    const monthsRow = ['', ''];
-    months.forEach((month) => {
-        monthsRow.push(month);
-    });
-    data.push(monthsRow);
-
+    const titlesRow = ['', 'Months'];
     if (productsList.length > 0) {
-        const productsRow = ['', 'Products']
-        months.forEach(() => {
-            productsRow.push('Earnings')
-        })
-        data.push(productsRow)
-    }
-    productsList.forEach((prod) => {
-        data.push(['', prod.name])
-    })
-
+        titlesRow.push('Products');
+        for (let i = 0; i < productsList.length; i++) {
+            titlesRow.push(productsList[i].name);
+        };
+    };
     if (servicesList.length > 0) {
-        const servicesRow = ['', 'Services']
-        months.forEach(() => {
-            servicesRow.push('Earnings')
-        })
-        data.push(servicesRow)
-    }
-    servicesList.forEach((serv) => {
-        data.push(['', serv.name])
-    })
+        titlesRow.push('Services');
+        for (let i = 0; i < servicesList.length; i++) {
+            titlesRow.push(servicesList[i].name);
+        };
+    };
+    titlesRow.push('Total');
+    data.push(titlesRow);
 
-    return data
-}
-
-function getAssetsSheet(assets, empProduction, months) {
-    const data = [[], [], ['', 'Costs']]
-
-    const monthsRow = ['', ''];
     months.forEach((month) => {
-        monthsRow.push(month);
+        data.push(['', month]);
     });
-    data.push(monthsRow);
 
+    // console.log("Revenue Sheet", data);
+    return data;
+};
+
+function getCostsSheet(employeesInfo, assetsInfo, months) {
+    const data = [[], ['','Costs'], []];
+
+    const empProduction = employeesInfo.empProduction;
+
+    const titlesRow = ['', 'Months'];
     if (empProduction > 0) {
-        const empHeaderRow = ['', 'Production Payroll']
-        months.forEach(() => empHeaderRow.push('Salary'))
-        data.push(empHeaderRow)
+        titlesRow.push('Salaries');
         for (let i = 0; i < empProduction; i++) {
-            const newEmpRow = ['', `Employee ${i + 1}`]
-            data.push(newEmpRow)
-        }
-    }
-
-    const inventory = assets.filter(asset => asset.name === 'inventory')
-
-    if (inventory.data.length > 0) {
-        const invHeaderRow = ['', 'Variable Costs']
-        months.forEach(() => invHeaderRow.push('Total Cost'))
-        data.push(invHeaderRow)
-        for (let i = 0; i < inventory.data.length; i++) {
-            const newEmpRow = ['', inventory.data[i].name]
-            data.push(newEmpRow)
-        }
-    }
-
-    return data
-}
-
-function getExpensesSheet(empAdmin, assets, expenses, months) {
-    const data = [[], [], ['', 'Expenses']]
-
-    const monthsRow = ['', ''];
-    months.forEach((month) => {
-        monthsRow.push(month);
-    });
-    data.push(monthsRow);
-
-    if (empAdmin > 0) {
-        const empHeaderRow = ['', 'Production Payroll']
-        months.forEach(() => empHeaderRow.push('Salary'))
-        data.push(empHeaderRow)
-        for (let i = 0; i < empAdmin; i++) {
-            const newEmpRow = ['', `Employee ${i + 1}`]
-            data.push(newEmpRow)
-        }
-    }
-
-    const ownedAssets = []
-    const rentedAssets = []
-
-    assets.forEach(array => {
-        array.data.forEach(asset => {
-            if (asset.type === "Owned") ownedAssets.push(asset.name)
-            else if (asset.type === "Rented" || asset.type === "Leased") rentedAssets.push(asset.name)
-        })
-    })
-
-    if (rentedAssets.length > 0) {
-        const fixedHeaderRow = ['', 'Fixed Costs']
-        months.forEach(() => fixedHeaderRow.push('Total Spent'))
-        data.push(fixedHeaderRow)
-        for (let i = 0; i < rentedAssets.length; i++) {
-            const fixedCostRow = ['', rentedAssets[i]]
-            data.push(fixedCostRow)
-        }
-    }
-
-    if (ownedAssets.length > 0) {
-        const deprecHeaderRow = ['', 'Depreciation']
-        months.forEach(() => deprecHeaderRow.push('Value Lost'))
-        data.push(deprecHeaderRow)
-        for (let i = 0; i < ownedAssets.length; i++) {
-            const deprecRow = ['', ownedAssets[i]]
-            data.push(deprecRow)
-        }
-    }
-
-    if (expenses.length > 0) {
-        const expensesHeaderRow = ['', 'Expenses']
-        months.forEach(() => expensesHeaderRow.push('Total Spent'))
-        data.push(expensesHeaderRow)
-        for (let i = 0; i < expenses.length; i++) {
-            const expensesRow = ['', expenses[i].name]
-            data.push(expensesRow)
-        }
-    }
-
-    return data
-}
-
-export const getExcelData = (revenue, numEmployees, empProduction, empAdmin, assets, expenses, startMonth) => {
-    const getMonthNames = (startMonth) => {
-        const start = new Date(startMonth);
-        const months = [];
-        const currentDate = new Date();
-        
-        while (start <= currentDate) {
-            months.push(start.toLocaleString('default', { month: 'long', year: 'numeric' }));
-            start.setMonth(start.getMonth() + 1);
-        }
-
-        return months;
+            titlesRow.push("Employee #" + (i+1));
+        };
     };
 
+    const rentedAssets = assetsInfo.assets.filter(asset => asset.status === 'Rented');
+    if (rentedAssets.length > 0) {
+        titlesRow.push('Fixed Costs');
+        for (let i = 0; i < rentedAssets.length; i++) {
+            titlesRow.push(rentedAssets[i].name);
+        };
+    };
+
+    if (assetsInfo.hasInventory) {
+        titlesRow.push('Variable Costs');
+        if (assetsInfo.hasRW) {
+            titlesRow.push('Raw Materials');
+            titlesRow.push('Used')
+        }
+    };
+    titlesRow.push('Leftover', 'Total');
+    data.push(titlesRow);
+
+    months.forEach((month) => {
+        data.push(['', month]);
+    });
+
+    // console.log("Costs Sheet", data);
+    return data;
+};
+
+function getOwnedAssetsSheet(assetsInfo, months) {
+    const data = [[], ['', 'Expenses of Owned Assets'], []]
+
+    const ownedAssets = assetsInfo.assets.filter(asset => asset.status === 'Owned')
+
+    const titlesRow = ['', 'Name', 'Type', 'Month Acquired', 'Initial Value', 'Lifetime (yrs)', 'Dep. Rate', 'Monthly Dep.', 'Yearly Dep.']
+    data.push(titlesRow)
+
+    if (ownedAssets.length > 0) {
+        for (let i = 0; i < ownedAssets.length; i++) {
+            const newRow = ['', ownedAssets[i].name, ownedAssets[i].type, ownedAssets[i].dateAcq]
+            data.push(newRow)
+        }
+    } else {
+        data.push(['', 'No depreciable assets, you can disregard this page'])
+    }
+
+    // console.log("Owned Assets Sheet, ", data)
+    return data
+};
+
+function getExpensesSheet(employeesInfo, expenses, months) {
+    const data = [[], ['', 'Expenses']];
+
+    const empAdmin = employeesInfo.empAdmin
+
+    const titlesRow = ['', 'Months'];
+    if (empAdmin > 0) {
+        titlesRow.push('Salaries');
+        for (let i = 0; i < empAdmin; i++) {
+            titlesRow.push("Employee #" + (i+1));
+        };
+    };
+
+    const expensesArr = expenses.expenses
+    // console.log(expensesArr)
+    if (expensesArr.length > 0) {
+        titlesRow.push('Expenses');
+        for (let i = 0; i < expensesArr.length; i++) {
+            titlesRow.push(expensesArr[i].name);
+        }
+    };
+    titlesRow.push('Total');
+    data.push(titlesRow);
+
+    months.forEach((month) => {
+        data.push(['', month]);
+    });
+
+    // console.log("Expenses Sheet", data);
+    return data;
+};
+
+function getAccountsSheet(accountInfo, months) {
+    const data = [[], ['', 'Liabilities and Receivables'], []]
+
+    const titlesRow = ['', 'Months', 'Month Started']
+    if (accountInfo.accsPayable.length > 0) {
+        titlesRow.push('Payables')
+        for (let i = 0; i < accountInfo.accsPayable.length; i++) {
+            titlesRow.push(accountInfo.accsPayable[i].name)
+        }
+    }
+    if (accountInfo.accsReceivable.length > 0) {
+        titlesRow.push('Receivables')
+        for (let i = 0; i < accountInfo.accsPayable.length; i++) {
+            titlesRow.push(accountInfo.accsReceivable[i].name)
+        }
+    }
+    data.push(titlesRow)
+
+    const allAccs = accountInfo.accsPayable.concat(accountInfo.accsReceivable)
+
+    months.forEach((month) => {
+        const newRow = ['', month, ''];
+        // const monthNum = new Date(month).getMonth() + 1;
+        // console.log(month)
+        // allAccs.forEach((acc, idx) => {
+        //     if (acc.date === monthNum) {
+        //         for (let i = 0; i < idx; i++) {
+        //             newRow.push('');
+        //         }
+        //         newRow.push('start');
+        //     }
+        // });
+        data.push(newRow);
+    });
+
+    // console.log("Accounts Sheet: ", data)
+    return data
+};
+
+export const getExcelData = (surveyInfo) => {
+    const bizInfo = surveyInfo.bizInfo;
+    const revenue = surveyInfo.revenueInfo.revenue;
+    const employeesInfo = surveyInfo.employeesInfo;
+    const assetsInfo = surveyInfo.assetsInfo;
+    const expenses = surveyInfo.expensesInfo;
+    const accountsInfo = surveyInfo.accountsInfo;
+    // console.log(bizInfo)
+    // console.log(revenue)
+    // console.log(employeesInfo)
+    // console.log(assetsInfo)
+    // console.log(expenses)
+    // console.log(accountsInfo)
+
+    const startMonth = bizInfo.startMonth;
+    // console.log(startMonth)
+
+    const getMonthNames = (startMonth) => {
+        const [year, month] = startMonth.split('-').map(Number);
+        const startDate = new Date(year, month - 1, 1); // Use local time
+        const currentDate = new Date();
+    
+        const months = [];
+        let tempDate = new Date(startDate); // Clone to avoid mutation
+    
+        while (tempDate <= currentDate) {
+            months.push(tempDate.toLocaleString('default', { month: 'long', year: 'numeric' }));
+            tempDate.setMonth(tempDate.getMonth() + 1);
+        }
+    
+        return months.reverse();
+    };
+    
+    
+
     const months = getMonthNames(startMonth);
+    // console.log(months)
 
-    const revenueData = getRevenueSheet(revenue, months)
-    const assetsData = getAssetsSheet(assets, empProduction, months)
-    const expensesData = getExpensesSheet(empAdmin, assets, expenses, months)
+    const overviewData = getOverviewSheet(bizInfo, startMonth, months)
+    const revenueData = getRevenueSheet(revenue, months);
+    const costsData = getCostsSheet(employeesInfo, assetsInfo, months);
+    const ownedAssetsData = getOwnedAssetsSheet(assetsInfo, months);
+    const expensesData = getExpensesSheet(employeesInfo, expenses, months);
+    const accountData = getAccountsSheet(accountsInfo, months)
 
-    const data = [revenueData, assetsData, expensesData];
+    const data = [overviewData, revenueData, costsData, expensesData, ownedAssetsData, accountData];
 
     return data;
 };

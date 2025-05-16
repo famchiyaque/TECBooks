@@ -46,7 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
+  min-width: 22px;
   height: 32px;
   background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
   border-radius: 8px;

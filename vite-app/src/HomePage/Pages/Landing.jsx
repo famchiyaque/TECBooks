@@ -12,6 +12,17 @@ function Landing() {
         navigate('/mxrep-dashboard')
     }
 
+    const scrollTecbooks = () => {
+        navigate('/home');
+        // Use setTimeout to ensure navigation completes before scrolling
+        setTimeout(() => {
+        const element = document.getElementById('tecbooks-page');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+        }, 100);
+    }
+
     return (
         <div className='landing'>
             <Header />
@@ -26,7 +37,7 @@ function Landing() {
                     our available educational simulators, and more with TECBooks.
                 </Typography>
                 <div className='landing-btn-group' style={{ flexBasis: '20%' }}>
-                    <button className='landing-btn'>Get Your TECBooks</button>
+                    <button className='landing-btn' onClick={scrollTecbooks}>Get Your TECBooks</button>
                     <button className='learn-more' onClick={goToDashboard}>
                         Learn More
                         <EastIcon className='landing-learn-btn' sx={{ height: '100%' }} />  

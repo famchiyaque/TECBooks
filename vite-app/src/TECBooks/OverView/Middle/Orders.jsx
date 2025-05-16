@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
-// import { useSimData } from '../../SimDataContext'
+import { useExcel } from '../../Comps/ExcelContext'
 import { getOrdersData } from '../Calcs/calcs'
 
-function Orders({ period, year }) {
-  // const { simData } = useSimData()
-  const [seriesData, setSeriesData] = useState([{}])
-  const [yLabel, setYLabel] = useState("by week")
-  const months = ['January', 'February', 'March', 'April', 'May', 
-    'June', 'July', 'August', 'September', 'October', 'November', 'December'
-  ]
+function Orders({ period }) {
+  const { loading, bizInfo, revenueData } = useExcel()
+  const [seriesData, setSeriesData] = useState([])
+  const [monthLabels, setMonthLabels] = useState([])
 
   useEffect(() => {
-    if (period == 12) setYLabel("by month for " + year)
-    else setYLabel("by week for " + months[period])
-    const newData = getOrdersData(simData, period, year)
-    setSeriesData(newData)
-  }, [period, year])
+    if (!revenueData || !bizInfo?.months) return
+
+    // ✅ Get the last 6 months
+    const allMonths = [...bizInfo.months]
+    const last6 = allMonths.slice(-6)
+
+    setMonthLabels(last6.reverse())
+    setSeriesData(getOrdersData(revenueData))
+  }, [revenueData, bizInfo])
 
   const options = {
     chart: {
@@ -26,10 +27,10 @@ function Orders({ period, year }) {
       height: '60%'
     },
     title: {
-      text: 'Orders: Units Sold by Product',
+      text: 'Sales by Product/Service',
       align: 'left',
-          x: 20,
-          style: { color: '#4f4F4F' }
+      x: 20,
+      style: { color: '#4f4F4F' }
     },
     yAxis: {
       title: {
@@ -39,17 +40,19 @@ function Orders({ period, year }) {
     },
     xAxis: {
       title: {
-        text: yLabel
-      }
+        text: 'Last 6 Months'
+      },
+      categories: monthLabels,
+      startOnTick: false,
+      endOnTick: false,
+      minPadding: 0,
+      maxPadding: 0
     },
     tooltip: {
       shared: true,
       headerFormat: '<span style="font-size:12px"><b>{point.key}</b></span><br>',
     },
     plotOptions: {
-      // series: {
-      //   pointStart: 2012,
-      // },
       area: {
         stacking: 'normal',
         lineColor: '#666666',

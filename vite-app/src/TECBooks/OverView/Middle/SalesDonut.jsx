@@ -1,36 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { useSimData } from '../../SimDataContext';
+import { useExcel } from '../../Comps/ExcelContext';
 import { getSalesData } from '../Calcs/calcs';
-import Loader from '../../Novus Components/Loader';
+import Loader from '../../Comps/Loader';
 
-function SalesDonut({ period, year }) {
-  const { simData, isLoading } = useSimData();
+function SalesDonut({ period }) {
+  const { loading, overviewData } = useExcel();
 
-  const [chartTitle, setChartTitle] = useState("")
+  const [chartTitle, setChartTitle] = useState("Distribution of Profitability")
   const [totalSales, setTotalSales] = useState("")
   const [seriesData, setSeriesData] = useState(null)
-  const months = ['January', 'February', 'March', 'April', 'May', 
-    'June', 'July', 'August', 'September', 'October', 'November', 'December'
-  ]
+  // const months = ['January', 'February', 'March', 'April', 'May', 
+  //   'June', 'July', 'August', 'September', 'October', 'November', 'December'
+  // ]
 
   const formatToCurrency = (number) => {
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(number)
   }
 
   useEffect(() => {
-    if (simData) {
-      if (period != 12) setChartTitle("Sales for Period: " + months[period])
-      else setChartTitle("Sales for " + year)
+    if (overviewData) {
 
-      const newTotal = formatToCurrency(simData.sales)
+      const newTotal = formatToCurrency(overviewData.revenue.reduce((prev, curr) => prev + curr, 0))
       setTotalSales(newTotal)
+      console.log("total sales, ", newTotal)
 
-      const newData = getSalesData(simData)
+      // const totalCosts = formatToCurrency(overviewData.revenue.reduce((prev, curr) => prev + curr, 0))
+      const newData = getSalesData(overviewData)
       setSeriesData(newData)
     }
-  }, [simData, period, year])
+  }, [overviewData])
 
   const options = seriesData
     ? {
@@ -45,7 +45,6 @@ function SalesDonut({ period, year }) {
 
               // Guard for undefined series
               if (!series || !series.center) return;
-
               let customLabel = chart.options.chart.custom?.label;
 
               if (!customLabel) {
@@ -135,8 +134,8 @@ function SalesDonut({ period, year }) {
       }
     : null // Null to avoid rendering the chart until data is ready
 
-  if (isLoading) return <Loader />
-  if (!simData || !options) return null // Wait for data to load
+  if (loading) return <Loader />
+  if (!overviewData || !options) return null // Wait for data to load
 
   return (
     <div style={{ height: '100%' }}>

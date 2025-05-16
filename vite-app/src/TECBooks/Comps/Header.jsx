@@ -1,6 +1,6 @@
 import React from "react"
 import '../../styles/production.css'
-// import { useSimData } from "../SimDataContext"
+import { useExcel } from "../Comps/ExcelContext"
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom"
 // import MenuIcon from '@mui/icons-material/Menu'
 
 function Header() {
-  // const { simData, isLoading, error } = useSimData()
+  const { loading, bizInfo } = useExcel()
   const navigate = useNavigate()
 
   // const toggleSidebar = () => {
@@ -28,17 +28,17 @@ function Header() {
             <Typography variant="h6" component="div" sx={{ cursor: 'pointer' }} onClick={() => navigate('/home')}>
               <b>TECBooks</b>
             </Typography>
-            <Typography variant="subtitle1" gutterBottom>
+            {/* <Typography variant="subtitle1" gutterBottom>
                 Brock Lee | Munchers | #2
-            </Typography>
+            </Typography> */}
           {/* </div> */}
-          {/* {isLoading || !simData ? (
-            <Typography variant="subtitle1" gutterBottom> ... | ... | ... </Typography>
+          {loading || !bizInfo ? (
+            <Typography variant="subtitle1" gutterBottom> ... | ... </Typography>
           ) : (
             <Typography variant="subtitle1" gutterBottom>
-                Brock Lee | Munchers | #2
+                {bizInfo.name} | Since: {bizInfo.startMonth}
             </Typography>
-          )} */}
+          )}
           {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>

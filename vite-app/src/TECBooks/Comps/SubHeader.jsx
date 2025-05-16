@@ -10,7 +10,7 @@ import Year from './Year'
 import { MdDashboard, MdCandlestickChart } from 'react-icons/md'
 import { FaFileInvoiceDollar, FaChartPie, FaRegChartBar  } from 'react-icons/fa'
 import { BiTrendingUp } from 'react-icons/bi'
-import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+// import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 
 function SubHeader({ sidebarVisible, setSidebarVisible, activeSidebar, period, year, setPeriod, setYear }) {
   // console.log("year passed: ", year)
@@ -48,7 +48,7 @@ function SubHeader({ sidebarVisible, setSidebarVisible, activeSidebar, period, y
               {(activeSidebar == 1 || activeSidebar == 2 || activeSidebar == 3) ? (
                 <div className="header-icon-flex">
                   <Period period={period} setPeriod={setPeriod} />
-                  <Year year={year} setYear={setYear} />
+                  {/* <Year year={year} setYear={setYear} /> */}
                 </div>
               ) : ''}
 

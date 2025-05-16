@@ -6,237 +6,235 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EastIcon from '@mui/icons-material/East';
 import * as XLSX from "xlsx";
-import TextField from '@mui/material/TextField';
-import FormControl from "@mui/material/FormControl";
 import { getExcelData } from '../Excel/getExcel';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useNavigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+import { selectAllSurveyInfo, selectSurveyComplete, setCurrQuestion } from '../Store';
 
-function Expenses({ currQuestion, setCurrQuestion, expenses, assets, typeBiz, revenue,
-  hasEmployees, numEmployees, empProduction, empAdmin, hasAssets, nameBiz
- }) {
-  const navigate = useNavigate()
-  const [infoValid, setInfoValid] = useState(false)
-  const [startMonth, setStartMonth] = useState('')
-  const [showGetExcel, setShowGetExcel] = useState(false)
-  const [showFinalModal, setShowFinalModel] = useState(false)
+function Expenses() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // Helper function to filter assets by type
-  const filterAssetsByType = (type) => {
-    return assets.flatMap(asset => 
-      asset.data.filter(item => item.type === type)
-    );
-  };
+  const currQuestion = useSelector((state) => state.survey.currQuestion);
+  const surveyInfo = useSelector(selectAllSurveyInfo);
+  const isComplete = useSelector(selectSurveyComplete);
 
-  const handleSetPage6 = () => {
-    setCurrQuestion(currQuestion === 6 ? null : 6);
+  const bizInfo = surveyInfo.bizInfo;
+  const revenueInfo = surveyInfo.revenueInfo;
+  const employeesInfo = surveyInfo.employeesInfo;
+  const assetsInfo = surveyInfo.assetsInfo;
+  const expensesInfo = surveyInfo.expensesInfo;
+  const accountsInfo = surveyInfo.accountsInfo;
+
+  // const [infoValid, setInfoValid] = useState(false)
+  const [showGetExcel, setShowGetExcel] = useState(false);
+  const [showFinalModal, setShowFinalModel] = useState(false);
+
+  const handleSetPage7 = () => {
+    dispatch(setCurrQuestion(currQuestion === 7 ? null : 7));
   };
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-    
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '50%',
-    minWidth:'300px',
-    maxHeight: '600px',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
-  const handleStartMonth = (event) => {
-    const value = event.target.value; // Get selected value in "YYYY-MM" format
-    setStartMonth(value); // Update state
-
-    const selectedDate = new Date(value + "-01"); // Convert to full date (1st of the month)
-    const currentDate = new Date();
-
-    // Calculate min (1 month ago) and max (10 years ago) valid dates
-    const minDate = new Date();
-    minDate.setMonth(currentDate.getMonth() - 1);
-
-    const maxDate = new Date();
-    maxDate.setFullYear(currentDate.getFullYear() - 10);
-
-    // Validate if the selected date is within the allowed range
-    if (selectedDate >= maxDate && selectedDate <= minDate) {
-        setShowGetExcel(true);
-        console.log(revenue)
-        console.log(assets)
-        console.log(expenses)
-    } else {
-        setShowGetExcel(false);
-    }
-  };
 
   useEffect(() => {
-    if (typeBiz !== "Incomplete" && hasEmployees !== null && hasAssets !== null) {
-      setInfoValid(true)
-    }
-  }, [nameBiz, typeBiz, revenue, hasEmployees, numEmployees, empProduction, empAdmin, assets, expenses])
+    setShowGetExcel(isComplete);
+  }, [isComplete]);
 
   const getExcel = () => {
-    const data = getExcelData(revenue, numEmployees, empProduction, empAdmin, assets, expenses, startMonth);
+    const data = getExcelData(surveyInfo);
+    // console.log(data)
   
     const workbook = XLSX.utils.book_new();
 
     // Define sheet names
-    const sheetNames = ["Revenue", "Costs", "Expenses"];
+    const sheetNames = ["Overview", "Revenue", "Costs", "Expenses", "OwnedAssets", "Accounts"];
 
     data.forEach((sheetData, index) => {
         const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
         XLSX.utils.book_append_sheet(workbook, worksheet, sheetNames[index]);
     });
 
-    XLSX.writeFile(workbook, "Business_Financials.xlsx");
-    handleOpen()
-  }
+    XLSX.writeFile(workbook, `TECBooks_${bizInfo.name}.xlsx`);
+    handleOpen();
+  };
+
+  // Get revenue streams that are type product
+  const products = revenueInfo.revenue.filter((rev) => { return rev.status === 'Product' })
+  // Get revenue streams that are type product
+  const services = revenueInfo.revenue.filter((rev) => { return rev.status === 'Services' })
 
   // Get rented/leased assets
-  const rentedOrLeased = filterAssetsByType("Rented").concat(filterAssetsByType("Leased"));
-
+  const rentedOrLeased = assetsInfo.assets.filter((asset) => { return asset.status === 'Rented' })
   // Get owned assets
-  const ownedAssets = filterAssetsByType("Owned");
+  const ownedAssets = assetsInfo.assets.filter((asset) => { return asset.status === 'Owned' })
 
-  // Get inventory data
-  const inventoryData = assets.find(asset => asset.name === "inventory")?.data || [];
+  const handleClick = () => {
+    navigate('/home');
+    // Use setTimeout to ensure navigation completes before scrolling
+    setTimeout(() => {
+      const element = document.getElementById('tecbooks-page');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
 
   return (
-    <div onClick={() => setCurrQuestion(6)}>
-      <Accordion expanded={currQuestion === 6}>
+    <div onClick={() => setCurrQuestion(7)}>
+      <Accordion expanded={currQuestion === 7}>
         <AccordionSummary 
           expandIcon={<ExpandMoreIcon />} 
           aria-controls="panel1-content" 
           id="panel1-header"
-          onClick={() => handleSetPage6()}
+          onClick={() => handleSetPage7()}
         >
-          <Typography component="span">6. Final Report</Typography>
+          <Typography component="span">7. Final Report</Typography>
           <Typography sx={{ color: 'gray', marginLeft: 'auto', paddingRight: '0.5rem' }}><i>{showGetExcel ? "Ready for Excel" : "Info not Ready"}</i></Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ textAlign: "left", paddingLeft: "10%" }}>
-          <Typography variant="subtitle1" sx={{ color: 'gray' }}>
+          <Typography variant="subtitle1" sx={{ color: '#5585b5' }}>
             Make sure the following information is correct:
           </Typography>
 
-          <Typography variant='h6'>Name: <span style={{ fontWeight: '400' }}>{nameBiz}</span></Typography>
+          <Typography variant='h6'>Name: <span style={{ fontWeight: '400' }}>{bizInfo.name}</span></Typography>
 
-          <Typography variant='h6'>Business Type: <span style={{ fontWeight: '400' }}>{typeBiz}</span></Typography>
+          {/* <Typography variant='h6'>Business Type: <span style={{ fontWeight: '400' }}>{typeBiz}</span></Typography> */}
 
-          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Revenue Streams: </Typography>
+          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Revenue Streams </Typography>
           <div style={{ paddingLeft: '1rem' }}>
-            <ul>
-              {revenue.length > 0 ? (
-                revenue.map((rev, index) => (
-                  <li key={index}>{rev.type}: {rev.name} {rev.track}</li>
-                ))
-
-              ) : (
-                <li>No revenue streams</li>
-              )}
-            </ul>
+            {(products.length === 0 && services.length === 0) ? (
+              <p>No Revenue Streams</p>
+            ) : (
+              <div>
+                <ul className='report-ul'>
+                  {products.map((rev, index) => (
+                    <li key={index}>{rev.status}: {rev.name}</li>
+                  ))}
+                  {services.map((rev, index) => (
+                    <li key={index}>{rev.status}: {rev.name}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
 
-          {!hasEmployees ? (
+          {!employeesInfo.hasEmployees ? (
             <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>No Employees</Typography>
           ) : (
             <div>
-                <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>{numEmployees} Employees</Typography>
-                <Typography variant='body1' sx={{ paddingLeft: '1rem' }}>Administrative Employees: {empAdmin}</Typography>
-                <Typography variant='body1' sx={{ paddingLeft: '1rem' }}>Production Employees: {empProduction}</Typography>
+                <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>{employeesInfo.numEmployees} Employees</Typography>
+                <Typography variant='body1' sx={{ paddingLeft: '1rem' }}>Administrative Employees: {employeesInfo.empAdmin}</Typography>
+                <Typography variant='body1' sx={{ paddingLeft: '1rem' }}>Production Employees: {employeesInfo.empProduction}</Typography>
             </div>
           )}
 
           {/* Fixed Costs */}
-          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Fixed Costs</Typography>
+          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Fixed Costs <span className='report-span'>(Rented/Leased)</span></Typography>
           <div style={{ paddingLeft: '1rem' }}>
-            <ul>
-              {rentedOrLeased.length > 0 ? (
-                rentedOrLeased.map((item, index) => (
-                  <li key={index}>{item.name} ({item.count} {item.type} {item.item})</li>
-                ))
+            {rentedOrLeased.length === 0 ? (
+                <p>No rented or leased assets</p>
               ) : (
-                <li>No rented or leased assets</li>
+                <div>
+                  <ul className='report-ul'>
+                    {rentedOrLeased.map((item, index) => (
+                      <li key={index}>{item.status} ({item.name} {item.dateAcq})</li>
+                    ))}
+                  </ul>
+                </div>
               )}
-            </ul>
           </div>
 
           {/* Depreciation Costs */}
-          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Depreciation Costs</Typography>
+          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Depreciation Costs <span className='report-span'>(Owned)</span></Typography>
           <div style={{ paddingLeft: '1rem' }}>
-            <ul>
-              {ownedAssets.length > 0 ? (
-                ownedAssets.map((item, index) => (
-                  <li key={index}>{item.name} ({item.count} {item.type} {item.item})</li>
-                ))
+            {ownedAssets.length === 0 ? (
+                <p>No owned assets</p>
               ) : (
-                <li>No owned assets</li>
+                <div>
+                  <ul className='report-ul'>
+                    {ownedAssets.map((item, index) => (
+                      <li key={index}>{item.status} ({item.name} {item.dateAcq})</li>
+                    ))}
+                  </ul>
+                </div>
               )}
-            </ul>
           </div>
 
           {/* Variable Costs */}
-          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Variable Costs</Typography>
+          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Variable Costs <span className='report-span'>(Raw Materials, Supplies)</span></Typography>
           <div style={{ paddingLeft: '1rem' }}>
-            <ul>
-              {inventoryData.length > 0 ? (
-                inventoryData.map((item, index) => (
-                  <li key={index}>{item.type} ({item.name})</li>
-                ))
-              ) : (
-                <li>No inventory data</li>
-              )}
+            <ul className='report-ul'>
+              {assetsInfo.hasRW && <li>Raw Materials</li>}
+              {assetsInfo.hasWIPG && <li>Work in progress goods</li>}
+              {assetsInfo.hasFG && <li>Finished Goods</li>}
             </ul>
           </div>
 
           {/* Expenses */}
-          <Typography variant='h6' sx={{ padding: '0.5rem 0' }}>Expenses</Typography>
+          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Expenses</Typography>
           <div style={{ paddingLeft: '1rem' }}>
-            <ul>
-              {expenses.length > 0 ? (
-                expenses.map((item, index) => (
-                  <li key={index}>{item.name} (Frequency: {item.frequency})</li>
-                ))
+            {expensesInfo.expenses.length === 0 ? (
+                <p>No expenses</p>
               ) : (
-                <li>No other expenses</li>
+                <div>
+                  <ul className='report-ul'>
+                    {expensesInfo.expenses.map((item, index) => (
+                      <li key={index}>{item.name}</li>
+                    ))}
+                  </ul>
+                </div>
               )}
-            </ul>
           </div>
 
-          {infoValid ? (
-            <FormControl sx={{ padding: '2rem 0' }}>
-              <Typography variant='body1'>Last Question:</Typography>
-              <Typography component="span" sx={{ marginBottom: '0.5rem' }}>
-                What was the start month of your business? (month/year)
-              </Typography>
-              <TextField
-                label="Month/Year"
-                type="month"
-                value={startMonth}
-                onChange={handleStartMonth}
-              />
-            </FormControl>
-          ) : (
-            <div style={{ padding: '1.5rem', marginTop: '1rem', borderTop: 'solid black 1px', borderBottom: 'solid black 1px' }}>
-              <Typography variant='body1'>
-                <b>Please fill out all the necessary information in order to get your excel template</b>
-              </Typography>
-            </div>
-          )}
+          {/* Liabilities */}
+          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Liabilities</Typography>
+          <div style={{ paddingLeft: '1rem' }}>
+            {accountsInfo.accsPayable.length === 0 ? (
+                <p>Never had a liability</p>
+              ) : (
+                <div>
+                  <ul className='report-ul'>
+                    {accountsInfo.accsPayable.map((item, index) => (
+                      <li key={index}>{item.name}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+          </div>
 
-          {showGetExcel && (
+          {/* Receivables */}
+          <Typography variant='h6' sx={{ paddingTop: '0.5rem' }}>Receivables</Typography>
+          <div style={{ padding: '0rem 0 1rem 1rem' }}>
+              {accountsInfo.accsReceivable.length === 0 ? (
+                <p>Never lent money</p>
+              ) : (
+                <div>
+                  <ul className='report-ul'>
+                    {accountsInfo.accsReceivable.map((item, index) => (
+                      <li key={index}>{item.name}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+          </div>
+
+          {showGetExcel ? (
             <div style={{ borderTop: 'solid gray 1px' }}>
               <button className='learn-more continue-btn' onClick={() => getExcel()}>
                 Get Excel
                 <EastIcon className='landing-learn-btn' sx={{ height: '100%', fontSize: '130%', fontWeight: '600' }} />
               </button>
+            </div>
+          ) : (
+            <div style={{ padding: '1.5rem', marginTop: '1rem', borderTop: 'solid black 1px', borderBottom: 'solid black 1px' }}>
+              <Typography variant='body1'>
+                <b>Please fill out all the necessary information in order to get your excel template</b>
+              </Typography>
             </div>
           )}
           
@@ -250,14 +248,14 @@ function Expenses({ currQuestion, setCurrQuestion, expenses, assets, typeBiz, re
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box className='modal-pop-up'>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-              You have finished the questionnaire!
+              You've finished the questionnaire!
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Once you finish filling out your custom template, you
               can go back to the home screen and upload your excel!
-              <button className='learn-more continue-btn' onClick={() => navigate('/home')}>
+              <button className='learn-more continue-btn' onClick={handleClick}>
                 Back to Home
                 <EastIcon className='landing-learn-btn' sx={{ height: '100%', fontSize: '130%', fontWeight: '600' }} />
               </button>
