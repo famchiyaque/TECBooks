@@ -6,8 +6,8 @@ import HomePage from './HomePage/HomePage'
 import MxRep from './MxRep/Main'
 import TECBooks from './TECBooks/TECBooks'
 import Survey from './Survey/Survey'
-import { createSurveyStore } from './Survey/Store';
-import TempUpload from './Homepage/TempUpload'
+import { createSurveyStore } from './Survey/store';
+import TempUpload from './HomePage/TempUpload'
 import ProjEval from './Sims/Investments/Simulator'
 // import ErrorPage from './Global Components/ErrorPage'
 import { Navigate } from 'react-router-dom'

@@ -17,7 +17,7 @@ import EngineeringIcon from "@mui/icons-material/Engineering";
 import Modal from '@mui/material/Modal';
 import HelpIcon from '@mui/icons-material/Help'
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrQuestion, setHasEmployees, setNumEmployees, setEmpAdmin, setEmpProduction, selectEmployeesComplete } from '../Store'
+import { setCurrQuestion, setHasEmployees, setNumEmployees, setEmpAdmin, setEmpProduction, selectEmployeesComplete } from '../store'
 
 function Employees() {
   const dispatch = useDispatch()

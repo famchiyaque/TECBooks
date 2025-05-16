@@ -12,7 +12,7 @@ import EastIcon from '@mui/icons-material/East'
 import HelpIcon from '@mui/icons-material/Help'
 import AssetModal from '../Comps/AssetModal'
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrQuestion, setHasAssets, setHasInventory, selectAssetsComplete } from '../Store'
+import { setCurrQuestion, setHasAssets, setHasInventory, selectAssetsComplete } from '../store'
 import AssetsInp from '../Comps/AssetsInp'
 import InventoryInps from '../Comps/InventoryInp'
 

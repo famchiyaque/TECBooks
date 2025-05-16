@@ -16,7 +16,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import { useSelector, useDispatch } from 'react-redux';
-import { setCurrQuestion, setHasAccsPayable, setHasAccsReceivable, setAccsPayable, setAccsReceivable, selectAccountsComplete } from '../Store'
+import { setCurrQuestion, setHasAccsPayable, setHasAccsReceivable, setAccsPayable, setAccsReceivable, selectAccountsComplete } from '../store'
 // import FormControl from "@mui/material/FormControl";
 // import { writeFileXLSX } from 'xlsx'
 

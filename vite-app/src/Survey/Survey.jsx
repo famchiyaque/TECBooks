@@ -16,7 +16,7 @@ import Modal from '@mui/material/Modal';
 // import Accordian from './Pages/Accordian'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setProgressBarFixed } from './Store'
+import { setProgressBarFixed } from './store'
 
 function Survey() {
   const dispatch = useDispatch()
