@@ -18,14 +18,30 @@ function Page1() {
         console.log("downloading template")
     }
 
+    // const [isTight, setIsTight] = useState(false);
+    
+    //   useEffect(() => {
+    //     const checkOrientation = () => {
+    //       setIsPortrait(window.innerWidth < );
+    //     };
+    
+    //     checkOrientation();
+    //     window.addEventListener('resize', checkOrientation);
+    //     return () => window.removeEventListener('resize', checkOrientation);
+    //   }, []);
+
   return (
-    <div className="page-container page-2" id="tecbooks-page">
+    <div className="page-container blue-page" id="tecbooks-page">
         <div className='page-topper'>for independent users and/or businesses</div>
+        <Typography className='page-main-title'
+            sx={{ fontWeight: '600', paddingLeft: '10vw', fontSize: '2.5rem' }}>
+                Make your own TECBooks!
+        </Typography>
         <div className='template-flex'>
             <div className='template-1'>
                 <div>
-                    <Typography variant="h4" sx={{ fontWeight: '600' }}>Complete</Typography>
-                    <Typography variant='body1' sx={{ fontWeight: '600' }}>
+                    <Typography sx={{ fontWeight: '600', fontSize: '1.8rem' }}>Complete</Typography>
+                    <Typography sx={{ fontWeight: '600', fontSize: '0.8rem' }}>
                         our business cuestionare with your business's details
                     </Typography>
                 </div>
@@ -33,19 +49,19 @@ function Page1() {
                     <img src={'/imgs/surveyor_landing.png'} style={{ boxShadow: 'none', width: '35%' }}  />
                 </div>
                 <div style={{ width: '100%', textAlign: 'left' }}>
-                    <button className='landing-btn' style={{ marginLeft: '3rem' }} onClick={goToSurvey}>
+                    <button className='landing-btn smaller' style={{ marginLeft: '10%' }} onClick={goToSurvey}>
                         Start Cuestionare
                     </button>
                 </div>
                 <a className='credits-a' href="https://www.freepik.com/icon/survey_2222295#fromView=search&page=1&position=20&uuid=1a015019-e55b-486d-9c01-558f612755a3">Icon by Freepik</a>    
             </div>
             <div className='temp-arrow'>
-                <EastIcon sx={{ fontSize: '2rem' }} />
+                <EastIcon sx={{ fontSize: '2rem' }} /> 
             </div>
             <div className='template-2'>
                 <div>
-                    <Typography variant='h4' sx={{ fontWeight: '600' }}>Fill Out</Typography>
-                    <Typography variant='body1' sx={{ fontWeight: '600' }}>
+                    <Typography sx={{ fontWeight: '600', fontSize: '1.8rem' }}>Fill Out</Typography>
+                    <Typography sx={{ fontWeight: '600', fontSize: '0.8rem' }}>
                         your excel template with your business's financial data
                     </Typography>
                 </div>
@@ -60,19 +76,21 @@ function Page1() {
             <div className='template-3'>
                 <img src={'/imgs/submit_landing.png'} style={{ boxShadow: 'none', width: '35%', margin: '0 auto' }} />
                 <div>
-                    <Typography variant='h4' sx={{ fontWeight: '600' }}>Upload It</Typography>
-                    <Typography variant='body1' sx={{ fontWeight: '600' }}>
+                    <Typography sx={{ fontWeight: '600', fontSize: '1.8rem' }}>Upload It</Typography>
+                    <Typography sx={{ fontWeight: '600', fontSize: '0.8rem' }}>
                         here to generate everything from income statements, 
                         balance sheets, and forecasts.
                     </Typography>
                 </div>
                 <div style={{ width: '100%', textAlign: 'right' }}>
-                    <button className='landing-btn' style={{ marginRight: '3rem' }} onClick={goToTemplateUpload}>
+                    <button className='landing-btn smaller' 
+                        style={{ marginRight: '10%' }}
+                        onClick={goToTemplateUpload}>
                         Upload Template
                     </button>
                 </div>
-                <div style={{ textAlign: 'center', padding: '0 1rem' }}>
-                    <Typography variant='subtitle2' sx={{  fontSize: 'small' }}>Already have your template? Skip the quiz and upload it here!</Typography>
+                <div style={{ textAlign: 'center' }}>
+                    <Typography variant='subtitle2' sx={{  fontSize: 'x-small' }}>Already have your template? Skip the quiz and upload it here!</Typography>
                 </div>
                 <a className='credits-a' href="https://www.freepik.com/icon/submit_2601814#fromView=search&page=1&position=32&uuid=d7849f54-aeb4-4ec8-ab89-0f2641d63a2a">Icon by Freepik</a>
             </div>

@@ -5,7 +5,7 @@ import CorporateFareIcon from '@mui/icons-material/CorporateFare'
 
 function Footer() {
   return (
-    <footer className="footer-class page-2" id="footer">
+    <footer className="footer-class blue-page" id="footer">
       <div>
         <div className="foot-header">
           <div style={{ flexBasis: "20%" }}>

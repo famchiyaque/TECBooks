@@ -29,7 +29,7 @@ function Landing() {
             <div className='landing-main'>
                 {/* <img src={`${process.env.PUBLIC_URL}/graph-gif.gif`}></img> */}
                 <div className='landing-titles'>
-                    <Typography variant='h1' sx={{ fontWeight: '600' }}>TECBooks</Typography>
+                    <Typography sx={{ fontWeight: '600', fontSize: '15vh' }}>TECBooks</Typography>
                     <Typography variant='h4' sx={{ fontWeight: '600'}}>Financial Education and Accounting</Typography>
                 </div>
                 <Typography variant='h6' className='landing-desc'>

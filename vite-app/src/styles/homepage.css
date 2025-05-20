@@ -119,6 +119,12 @@
     transition: box-shadow .2s;
     /* max-width: 100px; */
 }
+
+.landing-btn.smaller {
+  padding: 0.4rem 1rem;
+  line-height: 1.5rem;
+  font-size: 0.7rem;
+}
   
 .landing-btn:hover {
     box-shadow: #02131e 0 3px 8px;
@@ -192,7 +198,8 @@ button a {
 
 .page-container {
   width: 100%;
-  min-height: 600px;
+  /* min-height: 600px; */
+  min-height: 100vh;
   padding-bottom: 3rem;
   color: #073a5a;
 }
@@ -212,18 +219,24 @@ button a {
   display: inline-block;
 }
 
+.page-main-title {
+  font-weight: 600;
+  padding: 5vh 0 0 5vw;
+  text-align: left;
+}
+
 .template-flex {
   display: flex;
   justify-content: space-between;
   width: 90%;
-  /* height: 80%; */
-  padding-top: 3rem;
+  height: 70vh;
+  padding-top: 5vh;
   margin: auto auto;
 }
 
 .template-1, .template-2, .template-3 {
   /* height: 80%; */
-  min-height: 450px;
+  /* min-height: 450px; */
   position: relative;
   flex-basis: 30%;
   display: flex;
@@ -236,7 +249,7 @@ button a {
   border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;;
   border: solid #073a5a 1px;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
 }
 
 .temp-arrow {
@@ -249,8 +262,9 @@ button a {
   margin: 0 0 1.5rem 0;
 }
 
-.page-2 {
+.blue-page {
   background: linear-gradient(20deg, #28a1ed 0%, #73c2f3 30%, #bee3f9 70%, #fff 100%);
+  /* height: 100vh; */
 }
 
 .page-1 {
@@ -439,7 +453,8 @@ button a {
 
 .sims-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Flexible columns */
+  /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 25vw));
   gap: 1rem; /* Space between grid items */
   max-width: 100%; /* Ensure it doesn't overflow */
   padding: 3rem 0 0 0;

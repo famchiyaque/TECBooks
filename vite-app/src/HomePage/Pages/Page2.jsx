@@ -11,12 +11,16 @@ function Page2() {
           <div className='mxrep-top'>
             <div className='mxrep-top-left'>
               <Typography variant='h4' sx={{ fontWeight: '600' }}>Generate</Typography>
-              <Typography variant='body1'sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600', fontSize: '0.8rem' }}>
                 your production line's TECBooks and production line dashboards
                 from MxRep directly from the simulation.
               </Typography>
               <button className='learn-more'>
-                <a className='a-btn' href='http://10.97.85.98' target='_blank'>Go to MxRep Simulator</a>
+                <a className='a-btn' href='http://10.97.85.98' target='_blank'
+                style={{ paddingTop: '0.5rem' }}
+                >
+                  Go to MxRep Simulator
+                </a>
                 <EastIcon className='landing-learn-btn' sx={{ fill: 'black' }} />
               </button>
             </div>
@@ -34,7 +38,7 @@ function Page2() {
             </div>
             <div className='mxrep-top-right'>
               <Typography variant='h4' sx={{ fontWeight: '600' }}>Optimize</Typography>
-              <Typography variant='body1'sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600', fontSize: '0.8rem' }}>
                 your business with TECBook's effecieny metrics, bottleneck chart, 
                 statistical forecasts, and more.
               </Typography>

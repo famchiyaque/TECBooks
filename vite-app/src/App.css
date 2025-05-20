@@ -46,3 +46,14 @@
 .blue-to-white {
   background: linear-gradient(to top right, lightblue 1%, #d6e9ff 10%, white 70%);
 }
+
+.rotate-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffcc00;
+  text-align: center;
+  padding: 10px;
+  z-index: 1000; /* Ensure it appears above other content */
+}

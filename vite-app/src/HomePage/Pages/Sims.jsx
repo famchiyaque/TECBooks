@@ -5,7 +5,7 @@ import SimCard from '../Comps/SimCard'
 function SimsPage() {
 
   return (
-    <div className="page-container page-2">
+    <div className="page-container blue-page">
         <div className='page-topper'>for interactive and educational practice</div>
         <div className='sims-container'>
           <Typography variant='h3' sx={{ fontWeight: '600', padding: '0 0 1.5rem 0' }}>Available Simulators</Typography>
