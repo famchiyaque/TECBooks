@@ -1,23 +1,34 @@
-// contexts/PortraitContext.jsx
+// contexts/OrientationContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const OrientationContext = createContext();
 
 export function OrientationProvider({ children }) {
-  const [isPortrait, setIsPortrait] = useState(false);
+  const [deviceState, setDeviceState] = useState({
+    isPortrait: false,
+    isTooSmall: false,
+    status: 'ok',
+  });
 
   useEffect(() => {
-    const checkOrientation = () => {
-      setIsPortrait(window.innerHeight > window.innerWidth);
+    const checkDevice = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isTooSmall = window.innerWidth < 640;
+      let status = 'ok';
+
+      if (isPortrait) status = 'portrait';
+      else if (isTooSmall) status = 'tooSmall';
+
+      setDeviceState({ isPortrait, isTooSmall, status });
     };
 
-    checkOrientation();
-    window.addEventListener('resize', checkOrientation);
-    return () => window.removeEventListener('resize', checkOrientation);
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
   return (
-    <OrientationContext.Provider value={{ isPortrait }}>
+    <OrientationContext.Provider value={deviceState}>
       {children}
     </OrientationContext.Provider>
   );

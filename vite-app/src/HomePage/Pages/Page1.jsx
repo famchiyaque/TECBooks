@@ -42,7 +42,7 @@ function Page1() {
                 <div>
                     <Typography sx={{ fontWeight: '600', fontSize: '1.8rem' }}>Complete</Typography>
                     <Typography sx={{ fontWeight: '600', fontSize: '0.8rem' }}>
-                        our business cuestionare with your business's details
+                        our business questionnaire with your business's details
                     </Typography>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -90,7 +90,7 @@ function Page1() {
                     </button>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <Typography variant='subtitle2' sx={{  fontSize: 'x-small' }}>Already have your template? Skip the quiz and upload it here!</Typography>
+                    <Typography sx={{  fontSize: 'x-small' }}>Already have your template? Skip the quiz and upload it here!</Typography>
                 </div>
                 <a className='credits-a' href="https://www.freepik.com/icon/submit_2601814#fromView=search&page=1&position=32&uuid=d7849f54-aeb4-4ec8-ab89-0f2641d63a2a">Icon by Freepik</a>
             </div>

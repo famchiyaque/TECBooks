@@ -5,10 +5,10 @@ import Modal from '@mui/material/Modal';
 import { Typography } from '@mui/material';
 
 function RotateMessage() {
-    const { isPortrait } = useOrientation();
+    const { status } = useOrientation();
     const [open, setOpen] = useState(true);
   
-    if (!isPortrait) return null;
+    if (status === 'ok') return null;
   
     return (
       <div className="rotate-warning">
@@ -20,9 +20,16 @@ function RotateMessage() {
           aria-describedby="modal-modal-description"
         >
           <Box className='modal-pop-up'>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              📱 Please rotate your device to landscape mode.
-            </Typography>
+            {status === 'portrait' && (
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                📱 Please rotate your device to landscape mode.
+              </Typography>
+            )}
+            {status === 'tooSmall' && (
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Your device must be at least 640px wide to use this app.
+              </Typography>
+            )}
           </Box>
         </Modal>
       </div>
