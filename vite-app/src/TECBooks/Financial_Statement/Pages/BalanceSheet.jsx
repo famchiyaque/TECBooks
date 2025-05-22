@@ -6,13 +6,15 @@ import "jspdf-autotable"
 import { getBalanceSheet } from '../Calcs/balance'
 
 function BalanceSheet({ period, year }) {
-  const { statementData } = useExcel()
-  const [balanceSheetArray, setBalanceSheetArray] = useState([])
+  const { bizInfo, statementsData } = useExcel()
+  // const [balanceSheetArray, setBalanceSheetArray] = useState([])
+  const [periodData, setPeriodData] = useState(null)
 
-    // useEffect(() => {
-    //     const balanceInfo = getBalanceSheet(simData, period, year)
-    //     setBalanceSheetArray(balanceInfo)
-    // }, [simData, period, year])
+  useEffect(() => {
+      if (statementsData && period) {
+          setPeriodData(statementsData[period]);
+      }
+  }, [period, statementsData]);
 
     const generateBalanceSheetPDF = () => {
         console.log("balance sheet pdf clicked")
@@ -24,7 +26,7 @@ function BalanceSheet({ period, year }) {
               {/* Header */}
               <div className="text-center mb-8 page-header">
                 <h1 className="text-2xl font-bold mb-2">Balance Sheet</h1>
-                <p className="text-gray-600">{simData.teamName}</p>
+                <p className="text-gray-600">{bizInfo.name ? bizInfo.name : 'No name given'} for month of {period}</p>
               </div>
 
               <div className='balance-contents'>
@@ -75,7 +77,7 @@ function BalanceSheet({ period, year }) {
                 </div>
 
                 <div className='balance-data'>
-                      {balanceSheetArray.map((obj) => {
+                      {/* {balanceSheetArray.map((obj) => {
                             return <div className='data-column'>
                                       <p>{obj.month}</p>
                                       <br></br>
@@ -108,7 +110,7 @@ function BalanceSheet({ period, year }) {
                                       <br></br>
                                         
                                     </div>
-                        })}
+                        })} */}
                 </div>
               </div>
         </Card>

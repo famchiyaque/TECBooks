@@ -5,7 +5,7 @@ import { useExcel } from '../../Comps/ExcelContext';
 import { getSalesData } from '../Calcs/calcs';
 import Loader from '../../Comps/Loader';
 
-function SalesDonut({ period }) {
+function SalesDonut() {
   const { loading, overviewData } = useExcel();
 
   const [chartTitle, setChartTitle] = useState("Distribution of Profitability")

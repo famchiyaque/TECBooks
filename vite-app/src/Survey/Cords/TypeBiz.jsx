@@ -71,6 +71,7 @@ function TypeBiz() {
               sx={{ marginBottom: '1.5rem' }}
             />
           </FormControl>
+          <br/>
 
           <FormControl sx={{ padding: '2rem 0' }}>
               {/* <Typography variant='body1'>Last Question:</Typography> */}

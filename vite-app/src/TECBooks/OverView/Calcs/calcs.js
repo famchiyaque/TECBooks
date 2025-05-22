@@ -1,9 +1,9 @@
 export function getSalesData(overviewData) {
     let seriesData = []
 
-    const profit = overviewData.total.reduce((prev, curr) => prev + curr, 0)
-    const costs = overviewData.costs.reduce((prev, curr) => prev + curr, 0) * -1
-    const expenses = overviewData.expenses.reduce((prev, curr) => prev + curr, 0) * -1
+    const profit = (overviewData.total.reduce((prev, curr) => prev + curr, 0)).toFixed(0)
+    const costs = (overviewData.costs.reduce((prev, curr) => prev + curr, 0)).toFixed(0)
+    const expenses = (overviewData.expenses.reduce((prev, curr) => prev + curr, 0)).toFixed(0)
     console.log(profit)
     console.log(costs)
     console.log(expenses)
@@ -16,7 +16,7 @@ export function getSalesData(overviewData) {
     for (let i = 0; i < names.length; i++) {
         seriesData.push({
             name: names[i],
-            y: nums[i],
+            y: Number(nums[i]),
             color: colors[i],
             change: changes[i]
         })

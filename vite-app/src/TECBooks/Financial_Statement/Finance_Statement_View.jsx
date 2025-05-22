@@ -17,7 +17,7 @@ function FinancialStatement() {
   const [activePaper, setActivePaper] = useState(2)
   // const navigate = useNavigate()
   const { loading } = useExcel()
-  const { period, year } = useOutletContext()
+  const { period } = useOutletContext()
 
   if (loading) return <Loader />
 
@@ -30,9 +30,9 @@ function FinancialStatement() {
       <div className="statement-container">
           <Left activePaper={activePaper} handlePageChange={handlePageChange} />
           <Right activePaper={activePaper} handlePageChange={handlePageChange} />
-          {activePaper === 1 ? <Cashflows period={period} year={year} /> : ''}
-          {activePaper === 2 ? <Income period={period} year={year} /> : ''}
-          {activePaper === 3 ? <BalanceSheet period={period} year={year} /> : ''}
+          {activePaper === 1 ? <Cashflows period={period} /> : ''}
+          {activePaper === 2 ? <Income period={period} /> : ''}
+          {activePaper === 3 ? <BalanceSheet period={period} /> : ''}
       </div>
     </div>
   )

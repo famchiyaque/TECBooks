@@ -24,6 +24,7 @@
   /* border-radius: 5px; */
   display: inline-block;
   width: 100%;
+  z-index: 9999;
 }
 
 .side-fixed {

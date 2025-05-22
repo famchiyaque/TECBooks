@@ -105,9 +105,7 @@ export const selectAssetsComplete = (state) => {
   const assetsGood = ss.hasAssets === false || (ss.assets.length > 0 && (
     ss.assets.every(asset => 
       asset.status !== '' && asset.name !== '' && asset.dateAcq !== '' && (
-        asset.status === "Owned" ? asset.type !== '' && (
-          asset.type === "Tangible" ? asset.method !== '' : true
-        ) : true
+        asset.status === "Owned" ? asset.type !== '' : true
       )
     )
   )) 

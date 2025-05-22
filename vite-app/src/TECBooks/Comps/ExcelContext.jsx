@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { processExcelData } from '../Excel/processExcel'
+import { processExcelData, getStatements } from '../Calcs/processExcel'
 
 const ExcelContext = createContext()
 
@@ -13,7 +13,7 @@ export function ExcelProvider({ children, initialData }) {
   const [revenueData, setRevenueData] = useState(null)
   const [costsData, setCostsData] = useState(null)
   const [expensesData, setExpensesData] = useState(null)
-  // const [statementData, setStatementsData] = useState(null)
+  const [statementsData, setStatementsData] = useState(null)
 
   useEffect(() => {
     if (!initialData) {
@@ -28,12 +28,9 @@ export function ExcelProvider({ children, initialData }) {
         const processed = processExcelData(initialData)
         setBizInfo(processed[0])
         setOverviewData(processed[1])
-        // console.log(overviewData)
         setRevenueData(processed[2])
-        console.log(revenueData)
         setCostsData(processed[3])
         setExpensesData(processed[4])
-        // setStatementsData(processed[1])
       } catch (err) {
         console.error("Error processing Excel data:", err)
       } finally {
@@ -44,8 +41,15 @@ export function ExcelProvider({ children, initialData }) {
     processData()
   }, [initialData])
 
+  useEffect(() => {
+    if (bizInfo && overviewData && revenueData && costsData && expensesData) {
+      const statements = getStatements(bizInfo, overviewData, revenueData, costsData, expensesData)
+      setStatementsData(statements)
+    }
+  }, [bizInfo, overviewData, revenueData, costsData, expensesData])
+
   return (
-    <ExcelContext.Provider value={{ loading, bizInfo, overviewData, revenueData, costsData, expensesData }}>
+    <ExcelContext.Provider value={{ loading, bizInfo, overviewData, revenueData, costsData, expensesData, statementsData }}>
       {children}
     </ExcelContext.Provider>
   )

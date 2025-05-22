@@ -82,14 +82,17 @@
 }
 
 .income-titles, .balance-titles {
-  width: 36%;
+  /* width: 36%; */
+  width: 50%;
   text-align: left;
   /* border: solid green 1px; */
 }
 
 .income-data, .balance-data {
-  width: 63%;
-  display: flex;
+  /* width: 63%; */
+  width: 50%;
+  text-align: right;
+  /* display: flex; */
   /* border: solid orange 1px; */
 }
 
@@ -189,7 +192,8 @@ tbody tr td {
 }
 
 .pdf-button:hover {
-  background-color: #218838;
+  /* background-color: #218838; */
+  background-color: #eec60a;
 }
 
 

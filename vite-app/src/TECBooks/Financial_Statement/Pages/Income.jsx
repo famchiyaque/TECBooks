@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { useExcel } from '../../Comps/ExcelContext'
 import Card from "@mui/material/Card"
 import jsPDF from "jspdf"
 import "jspdf-autotable"
-import { getIncomeStatement } from '../Calcs/income'
+// import { getIncomeStatement } from '../Calcs/calcs'
 
-function Income({ period, year }) {
-    const { statementData } = useExcel()
-    const [incomeDataArray, setIncomeDataArray] = useState([])
-    const months = ["January", "February", "March", "April", "May",
-        "June", "July", "August", "September", "October", "November", "December"
-    ]
+function Income({ period }) {
+    const { bizInfo, statementsData } = useExcel()
+    const [periodData, setPeriodData] = useState(null);
 
-    // useEffect(() => {
-    //     const incomeInfo = getIncomeStatement(simData, period, year)
-    //     setIncomeDataArray(incomeInfo)
-    // }, [simData, period, year])
+    // console.log(period)
+    // console.log(bizInfo)
+    // console.log(statementsData)
+
+    useEffect(() => {
+        if (statementsData && period) {
+            setPeriodData(statementsData[period]);
+        }
+    }, [period, statementsData]);
 
     const generateIncomePDF = () => {
         const content = document.getElementById("income-contents"); // Target your component
@@ -48,56 +50,50 @@ function Income({ period, year }) {
                 {/* Header */}
                 <div className="text-center mb-8 page-header">
                     <h1 className="text-2xl font-bold mb-2">Income Statement</h1>
-                    {/* <p className="text-gray-600">{simData.teamName}</p> */}
-                    <p className="text-gray-600">Cookie World</p>
+                    <p className="text-gray-600">{bizInfo.name ? bizInfo.name : 'No name given'} for month of {period}</p>
                 </div>
 
                 <div id="income-contents" className='income-contents'>
                     <div className='income-titles'>
                         <br></br>
-                        <p>Net Sales</p>
-                        <p>Cost of Goods Sold (COGS)</p>
-                        <p className='left-indent'>Gross Profit</p>
+                            <p>Net Sales</p>
+                            <p>Cost of Goods Sold (COGS)</p>
+                            <p className='left-indent'>Gross Profit</p>
                         <br></br>
-                        <p>Administrative Expenes</p>
-                        <p>Selling and Operating Expenses</p>
-                        <p>Total Operating Expenses</p>
-                        <p className='left-indent'>Operating Profit (EBITDA)</p>
+                            <p>Administrative Expenses</p>
+                            <p>Depreciation</p>
+                            {/* <p>Selling and Operating Expenses</p> */}
+                            <p>Total Operating Expenses</p>
+                            <p className='left-indent'>Operating Profit (EBITDA)</p>
                         <br></br>
-                        <p>Depreciation</p>
-                        <p>Other Income/Expenses</p>
-                        <p>Gain/Loss on Sale of Fixed Assets</p>
-                        <p className='left-indent'>Income Before Taxes</p>
+                            {/* <p>Depreciation</p> */}
+                            {/* <p>Other Income/Expenses</p> */}
+                            {/* <p>Gain/Loss on Sale of Fixed Assets</p> */}
+                            {/* <p className='left-indent'>Income Before Taxes</p> */}
                         <br></br>
-                        <p>Tax Expense</p>
-                        <br></br>
-                        <p className='left-indent'>Net Income</p>
+                            {/* <p>Tax Expense</p> */}
+                            {/* <br></br> */}
+                            <p className='left-indent'>Net Income</p>
                         <br></br>
                     </div>
 
                     <div className='income-data'>
-                        {incomeDataArray.map((obj) => {
-                            return <div className='data-column'>
-                                        <p>{obj.month}</p>
-                                        <p>{obj.sales}</p>
-                                        <p>{obj.cogs}</p>
-                                        <p className='font-bold'>${obj.gross}</p>
-                                        <br></br>
-                                        <p>${obj.adminExp}</p>
-                                        <p>${obj.sellingAndOperating}</p>
-                                        <p>${obj.totalOperating}</p>
-                                        <p className='font-bold'>${obj.ebitda}</p>
-                                        <br></br>
-                                        <p>${obj.depreciation}</p>
-                                        <p>${obj.otherIncomeOrExpenses}</p>
-                                        <p>${obj.gainOrLossOnSaleOfFixedAssets}</p>
-                                        <p className='font-bold'>${obj.incomePreTaxes}</p>
-                                        <br></br>
-                                        <p>${obj.taxExpense}</p>
-                                        <br></br>
-                                        <p className='font-bold'>${obj.netIncome}</p>
-                                    </div>
-                        })}
+                        {/* {incomeDataArray.map((obj) => { */}
+                            {/* return <div className='data-column'> */}
+                            <div>
+                                <br/>
+                                <p>${periodData?.revenue ?? "N/A"}</p>
+                                <p>$({periodData?.costs ?? "N/A"})</p>
+                                <p className='font-bold'>${periodData?.gross ?? "N/A"}</p>
+                                <br/>
+                                <p>$({periodData?.expenses ?? "N/A"})</p>
+                                <p>$({periodData?.dep ?? "N/A"})</p>
+                                <p>$({periodData?.totalOp ?? "N/A"})</p>
+                                <p className='font-bold'>${periodData?.operating ?? "N/A"}</p>
+                                <br/><br/>
+                                <p className='font-bold'>${periodData?.net ?? "N/A"}</p>
+                            </div>
+                            {/* // })} */}
                     </div>
                 </div>
             </Card>

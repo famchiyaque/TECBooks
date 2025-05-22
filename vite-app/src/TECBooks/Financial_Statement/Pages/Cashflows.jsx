@@ -3,10 +3,10 @@ import { useExcel } from '../../Comps/ExcelContext'
 import Card from "@mui/material/Card"
 import jsPDF from "jspdf"
 import "jspdf-autotable"
-import { getIncomeStatement } from '../Calcs/income'
+import { getCashFlowsStatement } from '../Calcs/calcs'
 
 function Cashflows({ period, year }) {
-    const { statementData } = useExcel()
+    const { bizInfo, overviewData } = useExcel()
     const [incomeDataArray, setIncomeDataArray] = useState([])
     const months = ["January", "February", "March", "April", "May",
         "June", "July", "August", "September", "October", "November", "December"
@@ -48,8 +48,9 @@ function Cashflows({ period, year }) {
             <Card className="max-w-4xl mx-auto bg-white p-8 shadow-lg" style={{ textAlign: 'left' }} elevation={0}>
                 {/* Header */}
                 <div className="text-center mb-8 page-header">
-                  <p className="text-gray-600">Cookie World</p>
+                  {/* <p className="text-gray-600">Cookie World</p> */}
                     <h1 className="text-2xl font-bold mb-2">Statement of Cash Flows</h1>
+                    <p className="text-gray-600">{bizInfo.name ? bizInfo.name : 'No name given'} for month of {period}</p>
                     {/* <p className="text-gray-600">{simData.teamName}</p> */}
                     {/* <p className="text-gray-600">Cookie World</p> */}
                 </div>

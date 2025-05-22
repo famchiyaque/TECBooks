@@ -7,7 +7,7 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 function Sales({ period }) {
   const { bizInfo, overviewData } = useExcel()
   // console.log(overviewData)
-  console.log(period)
+  // console.log(period)
   
   const [change, setChange] = useState(0.0)
   const [color, setColor] = useState('gray')
@@ -16,7 +16,12 @@ function Sales({ period }) {
   const totalRev = overviewData.revenue.reduce((prev, curr) => prev + curr, 0)
 
   const formatToCurrency = (number) => {
-    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(number).substring(1,10)
+    return new Intl.NumberFormat('en-US', { 
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(number).replace('$', '');
   }
 
   const totalRevenue = formatToCurrency(totalRev)
@@ -35,12 +40,12 @@ function Sales({ period }) {
     const months = [...bizInfo.months].reverse();  // avoid mutating original
     const revenues = [...overviewData.revenue].reverse(); // avoid mutating original
   
-    console.log("months", months)
+    // console.log("months", months)
     let last;
     let change = null;
   
     for (let i = 0; i < months.length; i++) {
-      console.log(months[i])
+      // console.log(months[i])
       if (period === months[i] && i > 0) {
         const current = revenues[i];
         const previous = revenues[i - 1];
@@ -50,7 +55,7 @@ function Sales({ period }) {
     }
   
     if (change !== null) {
-      console.log(`% Change for ${period}:`, (change * 100).toFixed(1) + '%');
+      // console.log(`% Change for ${period}:`, (change * 100).toFixed(1) + '%');
       setChange(change)
       if (change > 0) {
         setColor('green')

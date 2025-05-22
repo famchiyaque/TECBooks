@@ -31,7 +31,7 @@ function MainLayout() {
         setActiveSidebar(matchedSidebar)
     }, [location])
 
-    console.log("active sidebar: ", activeSidebar)
+    // console.log("active sidebar: ", activeSidebar)
     if (activeSidebar == 0) return <Loader />
 
     return (
@@ -39,6 +39,7 @@ function MainLayout() {
             <Header />
             <SubHeader sidebarVisible={sidebarVisible} setSidebarVisible={setSidebarVisible} activeSidebar={activeSidebar}
                 period={period} setPeriod={setPeriod} 
+                // year={year} setYear={setYear} 
             />
 
             <div>  

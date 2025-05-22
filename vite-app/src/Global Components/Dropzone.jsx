@@ -20,7 +20,7 @@ function ExcelDropzone() {
         const workbook = XLSX.read(data, { type: "array" });
   
         // Required sheet names
-        const requiredSheets = ['Overview', 'Revenue', 'Costs', 'Expenses', 'OwnedAssets', 'Accounts'];
+        const requiredSheets = ['Instructions', 'Overview', 'Revenue', 'Costs', 'Expenses', 'OwnedAssets', 'Accounts'];
   
         // Compare sheet names
         const uploadedSheets = workbook.SheetNames;
@@ -64,8 +64,8 @@ function ExcelDropzone() {
         }
 
 
-        console.log("Parsed Data: ")
-        console.log(parsedData)
+        // console.log("Parsed Data: ")
+        // console.log(parsedData)
   
         setTimeout(() => {
           navigate("/tecbooks", { state: { excelData: parsedData } });

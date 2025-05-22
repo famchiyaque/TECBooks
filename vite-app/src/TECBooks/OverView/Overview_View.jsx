@@ -3,7 +3,7 @@ import { React, useEffect, useState } from 'react'
 // import { useSimData } from '../SimDataContext'
 import Loader from '../Comps//Loader'
 import { Navigate } from 'react-router-dom'
-// import Capital from './Small/Capital'
+import Capital from './Small/Capital'
 import Sales from './Small/Sales'
 import Profit from './Small/Profit'
 import Orders from './Middle/Orders'
@@ -16,7 +16,7 @@ import { useExcel } from '../Comps/ExcelContext'
 function Overview_View() {
     const { loading } = useExcel()
     const { period } = useOutletContext()
-    console.log(period)
+    // console.log(period)
 
     if (loading) return <Loader />
 
@@ -35,15 +35,15 @@ function Overview_View() {
                     <Profit period={period} />
                 </div>
                 <div className='whitecard top-box'>
-                    {/* <Capital /> */}
+                    <Capital period={period} />
                 </div>
             </div>
             <div className='middle-row'>
                 <div className='whitecard sales-div'>
-                    <SalesDonut period={period} />
+                    <SalesDonut />
                 </div>
                 <div className='whitecard orders-div'>
-                    <Orders period={period} />
+                    <Orders />
                 </div>
             </div>
         </div>

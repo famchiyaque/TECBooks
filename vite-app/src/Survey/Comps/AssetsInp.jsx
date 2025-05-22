@@ -50,7 +50,7 @@ function AssetsInp() {
     
 
     const handleAddAsset = () => {
-        dispatch(setAssets([...assets, { status: '', name: '', type: '', dateAcq: '', method: '', monthError: false }]))
+        dispatch(setAssets([...assets, { status: '', name: '', type: '', dateAcq: '', monthError: false }]))
     }
 
     const handleRemoveAsset = (index) => {
@@ -135,9 +135,8 @@ function AssetsInp() {
                                                     </Select>
                                                 </FormControl>
                                             </div>
-                                            {asset.type === "Tangible" ? (
+                                            {/* {asset.type === "Tangible" ? (
                                                 <div style={{ flexBasis: '30%' }}>
-                                                    {/* <Typography>Method</Typography> */}
                                                     <FormControl variant="standard" sx={{ width: '100%', maxWidth: '200px' }}>
                                                         <InputLabel>Depreciation</InputLabel>
                                                         <Select
@@ -152,7 +151,7 @@ function AssetsInp() {
                                             ) : (
                                                 <div style={{ flexBasis: '35%' }}>
                                                 </div>
-                                            )}
+                                            )} */}
                                             <div style={{ width: '28px' }}>
                                             </div>
                                         </div>

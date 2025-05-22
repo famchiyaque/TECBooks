@@ -46,12 +46,12 @@ function Expenses() {
 
   const getExcel = () => {
     const data = getExcelData(surveyInfo);
-    // console.log(data)
+    console.log(data)
   
     const workbook = XLSX.utils.book_new();
 
     // Define sheet names
-    const sheetNames = ["Overview", "Revenue", "Costs", "Expenses", "OwnedAssets", "Accounts"];
+    const sheetNames = ["Instructions", "Overview", "Revenue", "Costs", "Expenses", "OwnedAssets", "Accounts"];
 
     data.forEach((sheetData, index) => {
         const worksheet = XLSX.utils.aoa_to_sheet(sheetData);

@@ -59,7 +59,7 @@ function Sidebar({ activeSidebar, setActiveSidebar }) {
                     <FaFileInvoiceDollar className="sidebar-icon" />
                     <span>Financial Statement</span>
             </div>
-            <div 
+            {/* <div 
                 className={`sidebar-entry ${activeSidebar === 3 ? 'active' : ''}`}
                 onClick={() => {
                     setActiveSidebar(3)
@@ -67,7 +67,7 @@ function Sidebar({ activeSidebar, setActiveSidebar }) {
                 }}>
                     <FaRegChartBar className="sidebar-icon" />
                     <span>Financial Health</span>
-            </div>
+            </div> */}
             {/* <div 
                 className={`sidebar-entry ${activeSidebar === 4 ? 'active' : ''}`}
                 onClick={() => {

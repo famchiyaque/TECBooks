@@ -58,7 +58,7 @@ function Period({ period, setPeriod }) {
           )}
           
           {/* Optional: Add Full Year option */}
-          <MenuItem value="Full Year">Full Year</MenuItem>
+          {/* <MenuItem value="Lifetime">Lifetime</MenuItem> */}
         </Select>
       </FormControl>
     </Box>

@@ -38,7 +38,8 @@ function Landing() {
                 </Typography>
                 <div className='landing-btn-group' style={{ flexBasis: '20%' }}>
                     <button className='landing-btn' onClick={scrollTecbooks}>Get Your TECBooks</button>
-                    <button className='learn-more' onClick={goToDashboard}>
+                    {/* <button className='learn-more' onClick={goToDashboard}> */}
+                    <button className='learn-more' onClick={scrollTecbooks}>
                         Learn More
                         <EastIcon className='landing-learn-btn' sx={{ height: '100%' }} />  
                     </button>

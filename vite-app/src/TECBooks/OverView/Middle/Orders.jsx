@@ -4,19 +4,30 @@ import HighchartsReact from 'highcharts-react-official'
 import { useExcel } from '../../Comps/ExcelContext'
 import { getOrdersData } from '../Calcs/calcs'
 
-function Orders({ period }) {
+function Orders() {
   const { loading, bizInfo, revenueData } = useExcel()
   const [seriesData, setSeriesData] = useState([])
   const [monthLabels, setMonthLabels] = useState([])
+
+  const formatMonthLabel = (fullDate) => {
+    try {
+      // Handle cases where date might be in "Month YYYY" format
+      const [month, year] = fullDate.split(' ');
+      const shortMonth = month.substring(0, 3); // Take first 3 letters
+      return `${shortMonth} ${year}`;
+    } catch (e) {
+      return fullDate; // Fallback to original if formatting fails
+    }
+  };
 
   useEffect(() => {
     if (!revenueData || !bizInfo?.months) return
 
     // ✅ Get the last 6 months
     const allMonths = [...bizInfo.months]
-    const last6 = allMonths.slice(-6)
+    const last6 = allMonths.slice(-6).reverse().map(formatMonthLabel);
 
-    setMonthLabels(last6.reverse())
+    setMonthLabels(last6)
     setSeriesData(getOrdersData(revenueData))
   }, [revenueData, bizInfo])
 
