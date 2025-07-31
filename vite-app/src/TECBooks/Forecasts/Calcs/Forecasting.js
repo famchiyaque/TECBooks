@@ -329,18 +329,22 @@ export function getXCategories(past, future, simStartDate, interval) {
     return labels
 }
 
-export function getData(past, future, methods, simSales, simStartDate, interval, compound, dataType, alpha) {
+export function getData(past, future, methods, revenueData, startMonth, interval, compound, dataType, alpha) {
     // console.log("past: ", past)
     // console.log("future: ", future)
     // console.log("methods: ", methods)
     // console.log("interval: ", interval)
     // console.log("compound: ", compound)
     // console.log("dataType: ", dataType)
+
+    console.log("revenueData :", revenueData)
+    console.log("startMonth: ", startMonth)
+
     let seriesData = []
-    const pastDate = getPastDateInfo(past, simStartDate) // gets past date as Date object
+    const pastDate = getPastDateInfo(past, startMonth) // gets past date as Date object
     const futureDate = getFutureDateInfo(future) // gets future date as object
 
-    const dataArray = getArray(pastDate, futureDate, interval, simSales, dataType) // gets sales data array
+    const dataArray = getArray(pastDate, futureDate, interval, revenueData, dataType) // gets sales data array
     // console.log(dataArray)
     seriesData.push({ // add salesArray object to seriesData
         name: dataType,
@@ -362,7 +366,7 @@ export function getData(past, future, methods, simSales, simStartDate, interval,
         }
     })
 
-    console.log(seriesData)
+    // console.log(seriesData)
     return seriesData
 }
 
@@ -371,11 +375,11 @@ export function getCastTotals(seriesData, dataType) {
 
     seriesData.forEach(obj => {
         if (obj.name != 'sales' && obj.name != 'orders' && obj.name != 'demand') {
-            if (obj.data) {
-                const sum = obj.data.reduce((accum, curr) => accum + curr, 0)
-                const fixedSum = parseInt(sum.toFixed(0))
-                castTotals.push([obj.name, fixedSum, obj.color])
-            }
+            const sum = obj.data.reduce((accum, curr) => accum + curr, 0)
+            const fixedSum = parseInt(sum.toFixed(0))
+            castTotals.push(
+                [obj.name, fixedSum, obj.color]
+            )
         }
     })
 

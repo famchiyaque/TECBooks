@@ -6,7 +6,7 @@ import MainLayout from './MainLayout'
 import Overview_View from './OverView/Overview_View'
 // import FinanceKPIs_View from './Finance_KPIs/Finance_KPI_View'
 import Financial_Statement_View from './Financial_Statement/Finance_Statement_View'
-// import Forecasts_View from './Forecasts/Forecasts_View'
+import Forecasts_View from './Forecasts/Forecasts_View'
 import { Navigate } from 'react-router-dom'
 // import { SimDataProvider, useSimData } from './SimDataContext'
 
@@ -35,6 +35,7 @@ function TECBooks() {
                     <Route path="overview" element={<Overview_View />} />
                     <Route path="statements" element={<Financial_Statement_View />} />
                     {/* <Route path="financial-health" element={<FinanceKPIs_View />} /> */}
+                    <Route path="forecasts" element={<Forecasts_View />} />
                 </Route>
             </Routes>
         </ExcelProvider>
